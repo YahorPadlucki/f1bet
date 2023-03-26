@@ -1,6 +1,0 @@
-{
-"title":"BRAND",
-"secretKey":"85ea52c7-5dfb-4a18-978d-49db5d95f19e",
-"username":"swftest_IB_USER",
-"password":"swftestQaZ321"
-}
