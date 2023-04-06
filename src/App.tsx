@@ -6,7 +6,7 @@ import RaceInfo from "./components/RaceInfo";
 import ControlPanel from "./components/ControlPanel";
 import Modal from "./components/Modal";
 import { DriverData } from "./components/standings/DriverData";
-import SetBets from "./components/SetBets";
+import SetBets from "./components/bets/SetBets";
 
 function App() {
     const [driversData, setDriversData] = useState(driverDataArray);
