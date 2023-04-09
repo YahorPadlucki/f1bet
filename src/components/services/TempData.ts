@@ -1,6 +1,7 @@
 import { DriverData } from "../standings/DriverData";
+import { Driver } from "../../store/reducers/driversReducer";
 
-export const driverDataArray: DriverData[] = [
+export const driverDataArray: Driver[] = [
     {
         id: 1,
         place: 1,

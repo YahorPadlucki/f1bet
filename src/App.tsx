@@ -1,16 +1,50 @@
-import React, { useState } from 'react';
+import React, {
+    useEffect,
+    useState
+} from 'react';
 import './App.css';
 import Standings from "./components/standings/Standings";
-import { driverDataArray } from "./components/services/TempData";
 import RaceInfo from "./components/RaceInfo";
 import ControlPanel from "./components/ControlPanel";
 import Modal from "./components/Modal";
-import { DriverData } from "./components/standings/DriverData";
-import SetBets from "./components/bets/SetBets";
+import DriverBetsList from "./components/bets/DriverBetsList";
+
+import {
+    addDriver,
+    Driver,
+    selectAllDrivers,
+    selectDriverById
+} from './store/reducers/driversReducer';
+import { useSelector } from "react-redux";
+import store, { useAppDispatch } from "./store/Store";
+import { driverDataArray } from "./components/services/TempData";
 
 function App() {
-    const [driversData, setDriversData] = useState(driverDataArray);
-    const [isSetBetOpened, setIsSetBetOpened] = useState(true);
+    const dispatch = useAppDispatch();
+    const [selectedDriver, setSelectedDriver] = useState<Driver | null>(null);
+    const [isSetBetOpened, setIsSetBetOpened] = useState(false);
+    const drivers = useSelector(selectAllDrivers);
+
+    useEffect(() => {
+        console.log("App useEffect");
+        const drivers = driverDataArray.map((driverData) => {
+            return {
+                id: driverData.id,
+                name: driverData.name,
+                place: driverData.place,
+                lapTime: driverData.lapTime,
+            };
+        });
+
+        drivers.forEach((driver) => {
+            const existingDriver = selectDriverById(driver.id)(store.getState());
+
+            if (!existingDriver) {
+                dispatch(addDriver(driver));
+            }
+        });
+
+    }, []);
 
     function handleStart() {
         console.log("Race started!");
@@ -24,7 +58,9 @@ function App() {
         console.log("Race reset!");
     }
 
-    function onDriverClicked(driverData:DriverData){
+    function onDriverClicked(driverData: Driver) {
+        console.log("onDriverClicked " + driverData.name)
+        setSelectedDriver(driverData);
         setIsSetBetOpened(true);
     }
 
@@ -32,11 +68,12 @@ function App() {
         <>
             <RaceInfo title="2022 Australian Grand Prix" currentLap={5} totalLaps={58}/>
             <Modal isOpened={isSetBetOpened} close={() => setIsSetBetOpened(false)}>
-                <SetBets/>
+                <DriverBetsList driver={selectedDriver!}/>
             </Modal>
-            <Standings driversData={driversData} onDriverClicked={onDriverClicked}/>
+            <Standings drivers={drivers} onDriverClicked={onDriverClicked}/>
             <ControlPanel onStart={handleStart} onPause={handlePause} onReset={handleReset}/>
         </>
+
     );
 }
 

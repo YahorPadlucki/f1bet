@@ -1,27 +1,23 @@
 import React, { ReactNode } from "react";
 import styled from "styled-components";
 import { getBetItemBorderColors } from "./utils";
-import SetBetButton from "./SetBetButton";
-
-export type BetItemState = "default" | "active" | "disabled";
-
-export interface BetIemProps {
-    label?: string;
-    children?: ReactNode;
-    state: BetItemState;
-}
+import SetBetButton from "../buttons/SetBetButton";
+import CollectWinButton from "../buttons/CollectWinButton";
+import { BetState } from "../../../types/BetTypes";
 
 export type BetItemWrapperProps = {
     borderColor: string;
     backgroundColor: string;
     color: string;
+    chipBackgroundColor: string;
+    setBetButtonBorder: string;
 };
 
 
 export const BetItemWrapper = styled.div<BetItemWrapperProps>`
   display: flex;
   align-items: center;
-justify-content: space-between;
+  justify-content: space-between;
   padding: 10px;
   border-radius: 5px;
   border: 2px solid ${(props) => props.borderColor};
@@ -35,7 +31,16 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-function BetIem({children, state}: BetIemProps) {
+export interface BetIemProps {
+    label?: string;
+    children?: ReactNode;
+    state: BetState;
+    selectedBetValue: number;
+    onSetBetClicked: () => void;
+}
+
+
+function BetIem({children, state, onSetBetClicked, selectedBetValue}: BetIemProps) {
     const colors = getBetItemBorderColors(state);
 
     return (
@@ -43,7 +48,12 @@ function BetIem({children, state}: BetIemProps) {
             <Container>
                 {children}
             </Container>
-            <SetBetButton colors={colors}/>
+            {state != "won" && (
+                <SetBetButton onClick={onSetBetClicked} state={state} selectedBetValue={selectedBetValue}/>
+            )}
+            {state == "won" && (
+                <CollectWinButton onClick={onSetBetClicked} state={state}/>
+            )}
         </BetItemWrapper>
     )
 }

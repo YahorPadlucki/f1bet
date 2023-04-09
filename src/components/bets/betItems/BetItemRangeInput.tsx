@@ -5,17 +5,6 @@ import React, {
 import styled from "styled-components";
 import BetIem, { BetIemProps } from "./BetIem";
 
-interface BetItemRangeInputProps extends BetIemProps {
-    minValue?: string;
-    maxValue?: string;
-    defaultVal?: string;
-    onChange?: (value: string) => void;
-    label2?: string;
-    minValue2?: string;
-    maxValue2?: string;
-    defaultVal2?: string;
-    onChange2?: (value: string) => void;
-}
 
 const Label = styled.label`
   margin-right: 10px;
@@ -47,41 +36,47 @@ const InputContainer = styled.div`
  align-items: center;
 `;
 
+interface BetItemRangeInputProps extends BetIemProps {
+    value: number;
+    onChange: (value: number) => void;
+    minValue?: string;
+    maxValue?: string;
+    label2?: string;
+    minValue2?: string;
+    maxValue2?: string;
+    value2?: number;
+    onChange2?: (value: number) => void;
+}
 
 const BetItemRangeInput = ({
                                label,
                                minValue,
                                maxValue,
-                               defaultVal,
+                               value,
                                onChange,
-                               state = "active",
+                               state = "default",
                                label2,
                                minValue2,
                                maxValue2,
-                               defaultVal2,
+                               value2,
                                onChange2,
+                               onSetBetClicked,
+                               selectedBetValue
                            }: BetItemRangeInputProps) => {
-    const [value, setValue] = useState(defaultVal ?? "");
-    const [value2, setValue2] = useState(defaultVal2 ?? "");
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const newValue = event.target.value;
-        setValue(newValue);
-        if (onChange) {
-            onChange(newValue);
-        }
+        onChange(Number(event.target.value));
     };
     const handleInputChange2 = (event: ChangeEvent<HTMLInputElement>) => {
-        const newValue = event.target.value;
-        setValue2(newValue);
         if (onChange2) {
-            onChange2(newValue);
+            onChange2( Number(event.target.value));
         }
     };
+    const isDisabled = state === "disabled" || state === "set";
 
 
     return (
-        <BetIem state={state}>
+        <BetIem onSetBetClicked={onSetBetClicked} state={state} selectedBetValue={selectedBetValue}>
             <InputWrapper>
                 <InputContainer>
                     <Label htmlFor={label}>{label}</Label>
@@ -92,13 +87,13 @@ const BetItemRangeInput = ({
                         max={maxValue}
                         value={value}
                         onChange={handleInputChange}
-                        disabled={state === "disabled"}
+                        disabled={isDisabled}
                     />
                 </InputContainer>
                 <Value>{value}</Value>
 
             </InputWrapper>
-            {label2 && minValue2 && maxValue2 && defaultVal2 && onChange2 && (
+            {label2 && minValue2 && maxValue2 && value2 && onChange2 && (
                 <InputWrapper>
                     <InputContainer>
 
@@ -110,7 +105,7 @@ const BetItemRangeInput = ({
                             max={maxValue2}
                             value={value2}
                             onChange={handleInputChange2}
-                            disabled={state === "disabled"}
+                            disabled={isDisabled}
                         />
                     </InputContainer>
                     <Value>{value2}</Value>

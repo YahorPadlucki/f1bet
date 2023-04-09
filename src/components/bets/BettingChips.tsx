@@ -1,5 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
+import {
+    useDispatch,
+    useSelector
+} from "react-redux";
+import {
+    getAllChips,
+    selectedChipValue,
+    setChip
+} from "../../store/reducers/chipsReducer";
 
 interface ChipProps {
     value: number;
@@ -33,26 +42,20 @@ export const Chip = styled.div<{ value: number; selected: boolean }>`
   color: #333;
   ${(props) =>
     props.selected &&
-    `
-      box-shadow: 0px 0px 6px #333;
+    ` box-shadow: 0px 0px 6px #333;
+      background-color: #5cb85c;
   `}
 `;
 
-interface BettingChipsProps {
-    onSelect: (value: number) => void;
-    selectedValue: number;
-}
 
-const BettingChips: React.FC<BettingChipsProps> = ({
-                                                       onSelect,
-                                                       selectedValue,
-                                                   }) => {
-    const [chips, setChips] = useState([1, 2, 3, 5, 10, 50]);
-    const [selectedChip, setSelectedChip] = useState(selectedValue);
+const BettingChips: React.FC = () => {
+
+    const dispatch = useDispatch();
+    const chips = useSelector(getAllChips);
+    const selectedChip = useSelector(selectedChipValue);
 
     const handleChipClick = (value: number) => {
-        setSelectedChip(value);
-        onSelect(value);
+        dispatch(setChip({chipValue: value}))
     };
 
     return (
