@@ -18,9 +18,17 @@ import {
 import { useSelector } from "react-redux";
 import store, { useAppDispatch } from "./store/Store";
 import { driverDataArray } from "./components/services/TempData";
+import {
+    currentLapStore,
+    totalLapsStore
+} from "./store/reducers/raceReducer";
 
 function App() {
     const dispatch = useAppDispatch();
+
+    const currentLap = useSelector(currentLapStore);
+    const totalLaps = useSelector(totalLapsStore);
+
     const [selectedDriver, setSelectedDriver] = useState<Driver | null>(null);
     const [isSetBetOpened, setIsSetBetOpened] = useState(false);
     const drivers = useSelector(selectAllDrivers);
@@ -66,7 +74,7 @@ function App() {
 
     return (
         <>
-            <RaceInfo title="2022 Australian Grand Prix" currentLap={5} totalLaps={58}/>
+            <RaceInfo title="2022 Australian Grand Prix" currentLap={currentLap} totalLaps={totalLaps}/>
             <Modal isOpened={isSetBetOpened} close={() => setIsSetBetOpened(false)}>
                 <DriverBetsList driver={selectedDriver!}/>
             </Modal>

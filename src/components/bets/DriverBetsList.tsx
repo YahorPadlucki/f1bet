@@ -1,5 +1,8 @@
 import styled from "styled-components";
-import { useState } from "react";
+import {
+    useEffect,
+    useState
+} from "react";
 import BetItemToggleInput from "./betItems/BetItemToggleInput";
 import BettingChips from "./BettingChips";
 import { AppDispatch } from "../../store/Store";
@@ -16,6 +19,17 @@ import {
 import { Driver } from "../../store/reducers/driversReducer";
 import { selectedChipValue } from "../../store/reducers/chipsReducer";
 import BetItemRangeInput from "./betItems/BetItemRangeInput";
+import {
+    currentLapStore,
+    lapsLeftStore,
+    totalLapsStore
+} from "../../store/reducers/raceReducer";
+import { BetState } from "../../types/BetTypes";
+import {
+    endOfLap1MultiplayerStore,
+    podiumFinishedMultiplayerStore,
+    updateEndOfLap1MultiplayerAction
+} from "../../store/reducers/multiplayerReducer";
 
 const SetBetsWrapper = styled.div`
   display: flex;
@@ -31,18 +45,39 @@ interface SetBetProps {
 const DriverBetsList = ({driver}: SetBetProps) => {
     const dispatch: AppDispatch = useDispatch();
     const bets: Bet[] = useSelector(selectBetsByDriverId(driver.id));
-    const selectedChip = useSelector(selectedChipValue);
 
+    const selectedChip = useSelector(selectedChipValue);
+    const currentLap = useSelector(currentLapStore);
+    const totalLaps = useSelector(totalLapsStore);
+    const lapsLeft = useSelector(lapsLeftStore);
+
+    const podiumFinishMultiplier = useSelector(podiumFinishedMultiplayerStore);
+    const endOfLap1Multiplier = useSelector(endOfLap1MultiplayerStore);
 
     const podiumFinishBet = useSelector(selectBetByType(driver.id, "podiumFinish"));
     const [podiumFinish, setPodiumFinish] = useState(podiumFinishBet?.podiumFinish || false);
 
     const endOfLap1PlaceBet = useSelector(selectBetByType(driver.id, "endOfLap1Place"));
-    const [endOfLap1Place, setEndOfLap1Place] = useState(1);
+    const [endOfLap1Place, setEndOfLap1Place] = useState(driver.place);
 
     const placeOnLapBet = useSelector(selectBetByType(driver.id, "placeOnLap"));
     const [place, setPlace] = useState(2);
     const [onLap, setOnLap] = useState(2);
+
+    useEffect(() => {
+        updateEndOfLap1Multiplayer();
+    }, [endOfLap1Place])
+
+    const onendOfLap1PlaceChange = (value: number) => {
+        setEndOfLap1Place(value);
+    }
+
+    function updateEndOfLap1Multiplayer() {
+        dispatch(updateEndOfLap1MultiplayerAction({
+            currentPlace: driver.place,
+            betPlace: endOfLap1Place,
+        }));
+    }
 
 
     const setEndOfLap1PlaceBet = () => {
@@ -75,36 +110,43 @@ const DriverBetsList = ({driver}: SetBetProps) => {
             state: "set"
         }))
     }
+
+    function getPodiumFinishState(): BetState {
+        return podiumFinishBet?.state || lapsLeft > 5 ? "default" : "disabled";
+    }
+
     return (
 
         <SetBetsWrapper>
             <label>{driver.name}</label>
-            <label>curren lap: 1/53</label>
+            <label>curren lap: {currentLap}/{totalLaps}</label>
             <BetItemRangeInput
                 label="End of lap 1 place:"
-                minValue="1"
-                maxValue="20"
+                minValue={1}
+                maxValue={20}
                 value={endOfLap1PlaceBet?.endOfLap1Place || endOfLap1Place}
-                onChange={setEndOfLap1Place}
+                onChange={onendOfLap1PlaceChange}
                 onSetBetClicked={setEndOfLap1PlaceBet}
                 selectedBetValue={endOfLap1PlaceBet?.state === "set" ? endOfLap1PlaceBet.betValue : selectedChip}
                 state={endOfLap1PlaceBet?.state || "default"}
+                multiplier={endOfLap1Multiplier}
             />
 
             <BetItemRangeInput
                 label="Place:"
-                minValue="1"
-                maxValue="20"
+                minValue={1}
+                maxValue={20}
                 value={placeOnLapBet?.place || place}
                 onChange={setPlace}
                 label2="OnLap:"
-                minValue2="1"
-                maxValue2="53"
+                minValue2={1}
+                maxValue2={totalLaps}
                 value2={placeOnLapBet?.onLap || onLap}
                 onChange2={setOnLap}
                 onSetBetClicked={setPlaceOnLapBet}
                 selectedBetValue={placeOnLapBet?.state === "set" ? placeOnLapBet.betValue : selectedChip}
                 state={placeOnLapBet?.state || "default"}
+                multiplier={5}
             />
 
             {/*<BetItemRangeInput*/}
@@ -135,9 +177,10 @@ const DriverBetsList = ({driver}: SetBetProps) => {
                 value={podiumFinishBet?.podiumFinish || podiumFinish}
                 onChange={setPodiumFinish}
                 onSetBetClicked={setPodiumFinishBet}
+                multiplier={podiumFinishMultiplier}
                 selectedBetValue={podiumFinishBet?.state === "set" ? podiumFinishBet.betValue : selectedChip}
-                state={podiumFinishBet?.state || "default"}/>
-            <BettingChips />
+                state={getPodiumFinishState()}/>
+            <BettingChips/>
         </SetBetsWrapper>
 
     );

@@ -8,12 +8,16 @@ import { ThunkAction } from 'redux-thunk';
 import driverBetsReducer from './reducers/betsReducer';
 import driversReducer from './reducers/driversReducer';
 import chipReducer from "./reducers/chipsReducer";
+import raceReducer from "./reducers/raceReducer";
+import multiplayerReducer from "./reducers/multiplayerReducer";
 
 const store = configureStore({
     reducer: {
         drivers: driversReducer,
         driverBets: driverBetsReducer,
-        chips: chipReducer
+        chips: chipReducer,
+        race: raceReducer,
+        multiplayer:multiplayerReducer,
     },
 });
 

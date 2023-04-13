@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import BetIem, { BetIemProps } from "./BetIem";
 import { ChangeEvent } from "react";
+import { BetState } from "../../../types/BetTypes";
 
 const Toggleable = styled.label`
   margin-right: 10px;
@@ -22,7 +23,8 @@ function BetItemToggleInput({
                                 onSetBetClicked,
                                 onChange,
                                 value,
-                                selectedBetValue
+                                selectedBetValue,
+                                multiplier
                             }: BetItemToggleInputProps) {
 
     const onToggleClicked = (event: ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +32,8 @@ function BetItemToggleInput({
     }
 
     return (
-        <BetIem onSetBetClicked={onSetBetClicked} state={state} selectedBetValue={selectedBetValue}>
+        <BetIem onSetBetClicked={onSetBetClicked} state={state} selectedBetValue={selectedBetValue}
+                multiplier={multiplier}>
             <ToggleContainer>
                 <Toggleable htmlFor="on-podium">{label}</Toggleable>
                 <input type="checkbox" id="on-podium"

@@ -39,11 +39,11 @@ const InputContainer = styled.div`
 interface BetItemRangeInputProps extends BetIemProps {
     value: number;
     onChange: (value: number) => void;
-    minValue?: string;
-    maxValue?: string;
+    minValue: number;
+    maxValue: number;
     label2?: string;
-    minValue2?: string;
-    maxValue2?: string;
+    minValue2?: number;
+    maxValue2?: number;
     value2?: number;
     onChange2?: (value: number) => void;
 }
@@ -61,7 +61,8 @@ const BetItemRangeInput = ({
                                value2,
                                onChange2,
                                onSetBetClicked,
-                               selectedBetValue
+                               selectedBetValue,
+                               multiplier
                            }: BetItemRangeInputProps) => {
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -69,14 +70,14 @@ const BetItemRangeInput = ({
     };
     const handleInputChange2 = (event: ChangeEvent<HTMLInputElement>) => {
         if (onChange2) {
-            onChange2( Number(event.target.value));
+            onChange2(Number(event.target.value));
         }
     };
     const isDisabled = state === "disabled" || state === "set";
 
 
     return (
-        <BetIem onSetBetClicked={onSetBetClicked} state={state} selectedBetValue={selectedBetValue}>
+        <BetIem onSetBetClicked={onSetBetClicked} state={state} selectedBetValue={selectedBetValue} multiplier={multiplier}>
             <InputWrapper>
                 <InputContainer>
                     <Label htmlFor={label}>{label}</Label>
