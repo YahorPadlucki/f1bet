@@ -62,7 +62,9 @@ const BetItemRangeInput = ({
                                onChange2,
                                onSetBetClicked,
                                selectedBetValue,
-                               multiplier
+                               multiplier,
+                               winValue,
+                               onWinCollectClicked
                            }: BetItemRangeInputProps) => {
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -73,11 +75,14 @@ const BetItemRangeInput = ({
             onChange2(Number(event.target.value));
         }
     };
-    const isDisabled = state === "disabled" || state === "set";
+    const isDisabled = state === "disabled" || state === "set" || state === "won";
 
 
     return (
-        <BetIem onSetBetClicked={onSetBetClicked} state={state} selectedBetValue={selectedBetValue} multiplier={multiplier}>
+        <BetIem onSetBetClicked={onSetBetClicked} state={state} selectedBetValue={selectedBetValue}
+                winValue={winValue}
+                multiplier={multiplier}
+                onWinCollectClicked={onWinCollectClicked}>
             <InputWrapper>
                 <InputContainer>
                     <Label htmlFor={label}>{label}</Label>

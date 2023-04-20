@@ -1,19 +1,18 @@
 import styled from "styled-components";
 import { FC } from "react";
 import { Driver } from "../../store/reducers/driversReducer";
+import {
+    Bet,
+    selectBetsByDriverId
+} from "../../store/reducers/betsReducer";
+import { useSelector } from "react-redux";
+import DriverStandingRow from "./DriverStandingRow";
 
 const StandingsWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const StandingsRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem;
-  border: 1px solid black;
-    cursor: pointer;
-`;
 
 interface StandingsProps {
     drivers: Driver[];
@@ -25,16 +24,14 @@ const Standings: FC<StandingsProps> = ({drivers, onDriverClicked}) => {
 
     return (
         <StandingsWrapper>
-            {sortedDriversData.map((driver) => (
-                <StandingsRow
+            {sortedDriversData.map((driver) => {
+                return <DriverStandingRow
                     key={driver.id}
-                    onClick={() => onDriverClicked(driver)}
-                >
-                    <div>{driver.place}</div>
-                    <div>{driver.name}</div>
-                    <div>{driver.lapTime}</div>
-                </StandingsRow>
-            ))}
+                    driver={driver}
+                    onDriverClicked={onDriverClicked}
+                />
+            })
+            }
         </StandingsWrapper>
     );
 };

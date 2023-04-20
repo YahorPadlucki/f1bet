@@ -4,11 +4,11 @@ export const getBetItemBorderColors = (state: BetState) => {
     switch (state) {
         case "set":
             return {
-                borderColor: "#1c3f5f",
+                borderColor: "#0095ff",
                 backgroundColor: "#e6f7ff",
                 color: "#000000",
-                chipBackgroundColor: "#1c3f5f",
-                setBetButtonBorder: "#1c3f5f"
+                chipBackgroundColor: "#0095ff",
+                setBetButtonBorder: "#0095ff"
             };
         case "disabled":
             return {
@@ -24,7 +24,7 @@ export const getBetItemBorderColors = (state: BetState) => {
                 backgroundColor: "#f2f2f2",
                 color: "#000000",
                 chipBackgroundColor: "#5cb85c",
-                setBetButtonBorder: "#1c3f5f"
+                setBetButtonBorder: "#0095ff"
             };
         default:
             return {

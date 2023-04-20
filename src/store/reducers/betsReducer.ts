@@ -13,6 +13,7 @@ export interface Bet {
     type: BetType
     state: BetState;
     betValue: number;
+    betMultiplayer: number;
     podiumFinish?: boolean;
     endOfLap1Place?: number;
     place?: number;
@@ -20,7 +21,10 @@ export interface Bet {
     willPitOnLap?: number;
     gapToLeaderValue?: number;
     gapToLeaderOnLap?: number;
+    won?: boolean;
+    winValue?: number;
 }
+
 
 interface DriverBetsState {
     [driverId: number]: Bet[];
@@ -47,6 +51,7 @@ const driverBetsSlice = createSlice({
         },
         updateBet: (state, action: PayloadAction<Bet>) => {
             const {driverId, type} = action.payload;
+            console.log("updateBet", type)
             if (state[driverId]) {
                 const existingBetIndex = state[driverId].findIndex(bet => bet.type === type);
                 if (existingBetIndex !== -1) {
@@ -60,10 +65,41 @@ const driverBetsSlice = createSlice({
                 state[driverId] = state[driverId].filter(bet => bet.type !== type);
             }
         },
+        updateBetWinState: (state, action: PayloadAction<{ driverId: number, driverPlace: number, currentLap: number }>) => {
+            const {driverId, driverPlace, currentLap} = action.payload;
+            const updatedBets = state[driverId]?.map(bet => {
+                if (bet.state === "set") {
+                    switch (bet.type) {
+                        case "podiumFinish":
+                            //check if bet.podiumFinish is true and driver is in podium
+                            break;
+                        case "endOfLap1Place":
+                            if (currentLap !== 2)
+                                break;
+                            return updateWinState(bet, driverPlace, bet.endOfLap1Place as number);
+                        case "placeOnLap":
+                            if (currentLap !== bet.onLap)
+                                break;
+                            return updateWinState(bet, driverPlace, bet.place as number);
+                    }
+                }
+                return bet;
+            })
+            state[driverId] = updatedBets as Bet[];
+        }
+
     },
 });
 
-export const {addBet, updateBet, removeBet} = driverBetsSlice.actions;
+const updateWinState = (bet: Bet, driverPlace: number, betPlace: number) => {
+    const won = driverPlace === betPlace;
+    const state = won ? "won" : "lost";
+    const winValue = won ? bet.betValue * bet.betMultiplayer : 0;
+    return {...bet, state, won, winValue}
+}
+
+
+export const {addBet, updateBet, updateBetWinState, removeBet} = driverBetsSlice.actions;
 
 export const selectBetsByDriverId = (driverId: number) => (state: RootState): Bet[] => {
     return state.driverBets[driverId] || [];

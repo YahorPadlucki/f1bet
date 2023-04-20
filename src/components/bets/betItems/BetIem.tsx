@@ -58,10 +58,12 @@ export interface BetIemProps {
     selectedBetValue: number;
     multiplier: number;
     onSetBetClicked: () => void;
+    onWinCollectClicked: () => void;
+    winValue: number;
 }
 
 
-function BetIem({children, state, onSetBetClicked, selectedBetValue, multiplier}: BetIemProps) {
+function BetIem({children, state, onSetBetClicked, selectedBetValue, multiplier, winValue, onWinCollectClicked}: BetIemProps) {
     const colors = getBetItemBorderColors(state);
 
     return (
@@ -76,10 +78,13 @@ function BetIem({children, state, onSetBetClicked, selectedBetValue, multiplier}
                     {children}
                 </Container>
                 {state != "won" && (
-                    <SetBetButton onClick={onSetBetClicked} state={state} selectedBetValue={selectedBetValue}/>
+                    // <SetBetButton onClick={onSetBetClicked} state={multiplier > 1 ? state : 'disabled'}
+                    //               selectedBetValue={selectedBetValue}/>
+                    <SetBetButton onClick={onSetBetClicked} state={state}
+                    selectedBetValue={selectedBetValue}/>
                 )}
                 {state == "won" && (
-                    <CollectWinButton onClick={onSetBetClicked} state={state}/>
+                    <CollectWinButton onClick={onWinCollectClicked} state={state} winValue={winValue}/>
                 )}
             </BetItemWrapper>
 

@@ -10,7 +10,7 @@ interface RaceState {
 }
 
 const initialState: RaceState = {
-    currentLap: 0,
+    currentLap: 1,
     totalLaps: 52
 };
 
@@ -25,8 +25,8 @@ export const raceSlice = createSlice({
 });
 
 export const {setCurrentLap} = raceSlice.actions;
-export const currentLapStore = (state: RootState): number => state.race.currentLap;
-export const totalLapsStore = (state: RootState): number => state.race.totalLaps;
-export const lapsLeftStore = (state: RootState): number => state.race.totalLaps - state.race.currentLap;
+export const currentLapState = (state: RootState): number => state.race.currentLap;
+export const totalLapsState = (state: RootState): number => state.race.totalLaps;
+export const lapsLeftState = (state: RootState): number => state.race.totalLaps - state.race.currentLap;
 
 export default raceSlice.reducer;

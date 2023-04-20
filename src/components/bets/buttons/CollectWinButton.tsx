@@ -33,17 +33,18 @@ const SetBetLabel = styled.span`
 `;
 type CollectWinProps = {
     state: BetState;
+    winValue: number;
     onClick: () => void;
 }
 
-function CollectWinButton({state, onClick}: CollectWinProps) {
+function CollectWinButton({state, winValue, onClick}: CollectWinProps) {
     const handleClick = () => {
         onClick();
     }
 
     return (
         <CollectButton onClick={handleClick}>
-            <WinValue>{50}$</WinValue>
+            <WinValue>{winValue}$</WinValue>
             <SetBetLabel>Collect</SetBetLabel>
         </CollectButton>
     );

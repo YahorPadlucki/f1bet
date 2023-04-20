@@ -10,6 +10,7 @@ import driversReducer from './reducers/driversReducer';
 import chipReducer from "./reducers/chipsReducer";
 import raceReducer from "./reducers/raceReducer";
 import multiplayerReducer from "./reducers/multiplayerReducer";
+import balanceReducer from "./reducers/balanceReducer";
 
 const store = configureStore({
     reducer: {
@@ -17,7 +18,8 @@ const store = configureStore({
         driverBets: driverBetsReducer,
         chips: chipReducer,
         race: raceReducer,
-        multiplayer:multiplayerReducer,
+        multiplayer: multiplayerReducer,
+        balance: balanceReducer
     },
 });
 

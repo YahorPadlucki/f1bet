@@ -24,7 +24,9 @@ function BetItemToggleInput({
                                 onChange,
                                 value,
                                 selectedBetValue,
-                                multiplier
+                                multiplier,
+                                winValue,
+                                onWinCollectClicked
                             }: BetItemToggleInputProps) {
 
     const onToggleClicked = (event: ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +35,7 @@ function BetItemToggleInput({
 
     return (
         <BetIem onSetBetClicked={onSetBetClicked} state={state} selectedBetValue={selectedBetValue}
-                multiplier={multiplier}>
+                multiplier={multiplier} winValue={winValue} onWinCollectClicked={onWinCollectClicked}>
             <ToggleContainer>
                 <Toggleable htmlFor="on-podium">{label}</Toggleable>
                 <input type="checkbox" id="on-podium"
