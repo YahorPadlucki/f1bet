@@ -5,13 +5,12 @@ const BalanceContainer = styled.div`
   background-color: black;
   color: goldenrod;
   width: 100%;
-  height:  30px;
-  position: fixed;
   bottom: 0;
   text-align: center;
   font-size: 20px;
   font-weight: bold;
   padding: 20px 0;
+  height:5%;
 `;
 
 interface BalanceBarProps {

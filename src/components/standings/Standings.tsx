@@ -1,16 +1,14 @@
 import styled from "styled-components";
-import { FC } from "react";
-import { Driver } from "../../store/reducers/driversReducer";
 import {
-    Bet,
-    selectBetsByDriverId
-} from "../../store/reducers/betsReducer";
-import { useSelector } from "react-redux";
+    FC,
+    useMemo
+} from "react";
+import { Driver } from "../../store/reducers/driversReducer";
 import DriverStandingRow from "./DriverStandingRow";
 
 const StandingsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+ overflow-y: auto;
+ height: 75%;
 `;
 
 
@@ -19,14 +17,19 @@ interface StandingsProps {
     onDriverClicked: (value: Driver) => void;
 }
 
+
 const Standings: FC<StandingsProps> = ({drivers, onDriverClicked}) => {
-    const sortedDriversData = drivers.sort((a, b) => a.place - b.place);
+
+    const sortedDriversData = useMemo(
+        () => drivers.sort((a, b) => a.position - b.position),
+        [drivers]
+    );
 
     return (
         <StandingsWrapper>
             {sortedDriversData.map((driver) => {
                 return <DriverStandingRow
-                    key={driver.id}
+                    key={driver.driverId}
                     driver={driver}
                     onDriverClicked={onDriverClicked}
                 />

@@ -6,11 +6,9 @@ interface RaceInfoProps {
     totalLaps: number;
 }
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  top: 0;
   padding: 20px 0;
+  height: 10%;
 `;
 
 const Title = styled.h1`

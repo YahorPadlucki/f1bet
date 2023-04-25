@@ -32,9 +32,11 @@ import {
 import { BetState } from "../../types/BetTypes";
 import {
     endOfLap1MultiplayerState,
+    gapOnLapMultiplayerState,
     placeOnLapMultiplayerState,
     podiumFinishedMultiplayerState,
     updateEndOfLap1MultiplayerAction,
+    updateGapOnLapMultiplayerAction,
     updatePlaceOnLapMultiplayerAction,
     updatePodiumFinishedMultiplayerAction
 } from "../../store/reducers/multiplayerReducer";
@@ -56,7 +58,7 @@ interface SetBetProps {
 
 const DriverBetsList = ({driver}: SetBetProps) => {
     const dispatch: AppDispatch = useDispatch();
-    const bets: Bet[] = useSelector(selectBetsByDriverId(driver.id));
+    const bets: Bet[] = useSelector(selectBetsByDriverId(driver.driverId));
 
     const selectedChip = useSelector(selectedChipValue);
     const currentLap = useSelector(currentLapState);
@@ -67,16 +69,21 @@ const DriverBetsList = ({driver}: SetBetProps) => {
     const podiumFinishMultiplier = useSelector(podiumFinishedMultiplayerState);
     const endOfLap1Multiplier = useSelector(endOfLap1MultiplayerState);
     const placeOnLapMultiplayer = useSelector(placeOnLapMultiplayerState);
+    const gapOnLapMultiplayer = useSelector(gapOnLapMultiplayerState);
 
-    const podiumFinishBet = useSelector(selectBetByType(driver.id, "podiumFinish"));
+    const podiumFinishBet = useSelector(selectBetByType(driver.driverId, "podiumFinish"));
     const [podiumFinish, setPodiumFinish] = useState(podiumFinishBet?.podiumFinish || false);
 
-    const endOfLap1PlaceBet = useSelector(selectBetByType(driver.id, "endOfLap1Place"));
-    const [endOfLap1Place, setEndOfLap1Place] = useState(driver.place);
+    const endOfLap1PlaceBet = useSelector(selectBetByType(driver.driverId, "endOfLap1Place"));
+    const [endOfLap1Place, setEndOfLap1Place] = useState(driver.position);
 
-    const placeOnLapBet = useSelector(selectBetByType(driver.id, "placeOnLap"));
+    const placeOnLapBet = useSelector(selectBetByType(driver.driverId, "placeOnLap"));
     const [place, setPlace] = useState(2);
     const [onLap, setOnLap] = useState(2);
+
+    const gapOnLapBet = useSelector(selectBetByType(driver.driverId, "gapToLeader"));
+    const [gap, setGap] = useState(5);
+    const [gapOnLap, setGapOnLap] = useState(5);
 
     useEffect(() => {
         updateEndOfLap1Multiplayer();
@@ -91,6 +98,10 @@ const DriverBetsList = ({driver}: SetBetProps) => {
         setOnLap(currentLap + 1);
     }, [currentLap])
 
+    useEffect(() => {
+        updateGapOnLapMultiplayer();
+    }, [gapOnLap, gap])
+
 
     const onendOfLap1PlaceChange = (value: number) => {
         setEndOfLap1Place(value);
@@ -98,7 +109,7 @@ const DriverBetsList = ({driver}: SetBetProps) => {
 
     function updateEndOfLap1Multiplayer() {
         dispatch(updateEndOfLap1MultiplayerAction({
-            currentPlace: driver.place,
+            currentPlace: driver.position,
             betPlace: endOfLap1Place,
         }));
     }
@@ -107,16 +118,25 @@ const DriverBetsList = ({driver}: SetBetProps) => {
         dispatch(updatePodiumFinishedMultiplayerAction({
             currentLap: currentLap,
             totalLaps: totalLaps,
-            driverPosition: driver.place,
+            driverPosition: driver.position,
         }));
     }
 
     function updatePlaceOnLapMultiplayer() {
         dispatch(updatePlaceOnLapMultiplayerAction({
-            currentPlace: driver.place,
+            currentPlace: driver.position,
             betPlace: place,
             currentLap: currentLap,
             betLap: onLap
+        }));
+    }
+
+    function updateGapOnLapMultiplayer() {
+        dispatch(updateGapOnLapMultiplayerAction({
+            currentLap: currentLap,
+            currentGap: driver.timeToLeader,
+            betGap: gap,
+            betLap: gapOnLap
         }));
     }
 
@@ -124,7 +144,7 @@ const DriverBetsList = ({driver}: SetBetProps) => {
     const setEndOfLap1PlaceBet = () => {
         dispatch(decreaseBalance({amount: selectedChip}));
         dispatch(addBet({
-            driverId: driver.id,
+            driverId: driver.driverId,
             type: "endOfLap1Place",
             endOfLap1Place: endOfLap1Place,
             betValue: selectedChip,
@@ -136,7 +156,7 @@ const DriverBetsList = ({driver}: SetBetProps) => {
     const setPlaceOnLapBet = () => {
         dispatch(decreaseBalance({amount: selectedChip}));
         dispatch(addBet({
-            driverId: driver.id,
+            driverId: driver.driverId,
             type: "placeOnLap",
             place: place,
             onLap: onLap,
@@ -146,10 +166,23 @@ const DriverBetsList = ({driver}: SetBetProps) => {
         }))
     }
 
+    const setGapOnLapBet = () => {
+        dispatch(decreaseBalance({amount: selectedChip}));
+        dispatch(addBet({
+            driverId: driver.driverId,
+            type: "gapToLeader",
+            timeToLeader: gap,
+            timeToLeaderOnLap: gapOnLap,
+            betValue: selectedChip,
+            betMultiplayer: gapOnLapMultiplayer,
+            state: "set"
+        }))
+    }
+
     const setPodiumFinishBet = () => {
         dispatch(decreaseBalance({amount: selectedChip}));
         dispatch(addBet({
-            driverId: driver.id,
+            driverId: driver.driverId,
             type: "podiumFinish",
             podiumFinish: podiumFinish,
             betValue: selectedChip,
@@ -161,7 +194,7 @@ const DriverBetsList = ({driver}: SetBetProps) => {
     function onEndOfLap1WinCollectClicked(): void {
         dispatch(increaseBalance({amount: endOfLap1PlaceBet!.winValue as number}));
         dispatch(removeBet({
-            driverId: driver.id,
+            driverId: driver.driverId,
             type: "endOfLap1Place"
         }))
     }
@@ -169,8 +202,16 @@ const DriverBetsList = ({driver}: SetBetProps) => {
     function onPlaceOnLapWinCollectClicked(): void {
         dispatch(increaseBalance({amount: placeOnLapBet!.winValue as number}));
         dispatch(removeBet({
-            driverId: driver.id,
+            driverId: driver.driverId,
             type: "placeOnLap"
+        }))
+    }
+
+    function onGapOnLapWinCollectClicked(): void {
+        dispatch(increaseBalance({amount: gapOnLapBet!.winValue as number}));
+        dispatch(removeBet({
+            driverId: driver.driverId,
+            type: "gapToLeader"
         }))
     }
 
@@ -190,11 +231,16 @@ const DriverBetsList = ({driver}: SetBetProps) => {
         return placeOnLapBet?.state || "default";
     }
 
+    function getGapOnLapState(): BetState {
+        return gapOnLapBet?.state || "default";
+    }
+
     return (
 
         <SetBetsWrapper>
             <label>{driver.name}</label>
-            <label>curren lap: {currentLap}/{totalLaps}</label>
+            <label>Curren lap: {currentLap}/{totalLaps}</label>
+            <label>Curren position: {driver.position}</label>
             <BetItemRangeInput
                 label="End of lap 1 place:"
                 minValue={1}
@@ -226,6 +272,25 @@ const DriverBetsList = ({driver}: SetBetProps) => {
                 multiplier={placeOnLapMultiplayer}
                 winValue={placeOnLapBet?.winValue || 0}
                 onWinCollectClicked={onPlaceOnLapWinCollectClicked}
+            />
+
+            <BetItemRangeInput
+                label="Gap to leader:"
+                minValue={1}
+                maxValue={30}
+                value={gapOnLapBet?.timeToLeader || gap}
+                onChange={setGap}
+                label2="OnLap:"
+                minValue2={currentLap + 1}
+                maxValue2={totalLaps}
+                value2={gapOnLapBet?.timeToLeaderOnLap || gapOnLap}
+                onChange2={setGapOnLap}
+                onSetBetClicked={setGapOnLapBet}
+                selectedBetValue={gapOnLapBet?.state === "set" ? gapOnLapBet.betValue : selectedChip}
+                state={getGapOnLapState()}
+                multiplier={gapOnLapMultiplayer}
+                winValue={gapOnLapBet?.winValue || 0}
+                onWinCollectClicked={onGapOnLapWinCollectClicked}
             />
 
             {/*<BetItemRangeInput*/}

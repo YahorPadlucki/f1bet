@@ -6,15 +6,18 @@ import {
 import { RootState } from '../Store';
 
 export interface Driver {
-    id: number;
+    driverId: string;
     name: string;
-    place: number;
-    lapTime: string;
+    position: number;
+    time: string;
+    timeToLeader: number;
+    totalTime: number;
+    y?: number;
 }
 
 interface DriversState {
-    driversById: Record<number, Driver>;
-    driversIds: number[];
+    driversById: Record<string, Driver>;
+    driversIds: string[];
 }
 
 const initialState: DriversState = {
@@ -27,29 +30,22 @@ const driversSlice = createSlice({
     initialState,
     reducers: {
         addDriver: (state, action: PayloadAction<Driver>) => {
-            const {id} = action.payload;
-            state.driversById[id] = action.payload;
-            state.driversIds.push(id);
+            const {driverId} = action.payload;
+            state.driversById[driverId] = action.payload;
+            state.driversIds.push(driverId);
         },
         updateDriver: (state, action: PayloadAction<Driver>) => {
-            const {id} = action.payload;
-            if (state.driversById[id]) {
-                state.driversById[id] = {...state.driversById[id], ...action.payload};
+            const {driverId} = action.payload;
+            if (state.driversById[driverId]) {
+                state.driversById[driverId] = {...state.driversById[driverId], ...action.payload};
             }
-        },
-        removeDriver: (state, action: PayloadAction<number>) => {
-            const index = state.driversIds.indexOf(action.payload);
-            if (index !== -1) {
-                delete state.driversById[action.payload];
-                state.driversIds.splice(index, 1);
-            }
-        },
+        }
     },
 });
 
-export const {addDriver, updateDriver, removeDriver} = driversSlice.actions;
+export const {addDriver, updateDriver} = driversSlice.actions;
 
-export const selectDriverById = (driverId: number) => (state: RootState) =>
+export const selectDriverById = (driverId: string) => (state: RootState) =>
     state.drivers.driversById[driverId];
 
 export const totalDriversState = (state: RootState): number =>

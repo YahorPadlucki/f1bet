@@ -9,7 +9,7 @@ import {
 } from "../../types/BetTypes";
 
 export interface Bet {
-    driverId: number;
+    driverId: string;
     type: BetType
     state: BetState;
     betValue: number;
@@ -19,15 +19,15 @@ export interface Bet {
     place?: number;
     onLap?: number;
     willPitOnLap?: number;
-    gapToLeaderValue?: number;
-    gapToLeaderOnLap?: number;
+    timeToLeader?: number;
+    timeToLeaderOnLap?: number;
     won?: boolean;
     winValue?: number;
 }
 
 
 interface DriverBetsState {
-    [driverId: number]: Bet[];
+    [driverId: string]: Bet[];
 }
 
 const initialState: DriverBetsState = {};
@@ -59,14 +59,14 @@ const driverBetsSlice = createSlice({
                 }
             }
         },
-        removeBet: (state, action: PayloadAction<{ driverId: number, type: BetType }>) => {
+        removeBet: (state, action: PayloadAction<{ driverId: string, type: BetType }>) => {
             const {driverId, type} = action.payload;
             if (state[driverId]) {
                 state[driverId] = state[driverId].filter(bet => bet.type !== type);
             }
         },
-        updateBetWinState: (state, action: PayloadAction<{ driverId: number, driverPlace: number, currentLap: number }>) => {
-            const {driverId, driverPlace, currentLap} = action.payload;
+        updateBetWinState: (state, action: PayloadAction<{ driverId: string, driverPlace: number, currentLap: number, timeToLeader: number }>) => {
+            const {driverId, driverPlace, currentLap, timeToLeader} = action.payload;
             const updatedBets = state[driverId]?.map(bet => {
                 if (bet.state === "set") {
                     switch (bet.type) {
@@ -74,13 +74,17 @@ const driverBetsSlice = createSlice({
                             //check if bet.podiumFinish is true and driver is in podium
                             break;
                         case "endOfLap1Place":
-                            if (currentLap !== 2)
+                            if (currentLap !== 1)
                                 break;
-                            return updateWinState(bet, driverPlace, bet.endOfLap1Place as number);
+                            return updateWinState(bet, driverPlace === bet.endOfLap1Place);
                         case "placeOnLap":
                             if (currentLap !== bet.onLap)
                                 break;
-                            return updateWinState(bet, driverPlace, bet.place as number);
+                            return updateWinState(bet, driverPlace === bet.place);
+                        case "gapToLeader":
+                            if (currentLap !== bet.timeToLeaderOnLap)
+                                break;
+                            return updateWinState(bet, Math.abs(bet.timeToLeader! - timeToLeader) <= 1);
                     }
                 }
                 return bet;
@@ -91,8 +95,8 @@ const driverBetsSlice = createSlice({
     },
 });
 
-const updateWinState = (bet: Bet, driverPlace: number, betPlace: number) => {
-    const won = driverPlace === betPlace;
+const updateWinState = (bet: Bet, won: boolean) => {
+
     const state = won ? "won" : "lost";
     const winValue = won ? bet.betValue * bet.betMultiplayer : 0;
     return {...bet, state, won, winValue}
@@ -101,11 +105,11 @@ const updateWinState = (bet: Bet, driverPlace: number, betPlace: number) => {
 
 export const {addBet, updateBet, updateBetWinState, removeBet} = driverBetsSlice.actions;
 
-export const selectBetsByDriverId = (driverId: number) => (state: RootState): Bet[] => {
+export const selectBetsByDriverId = (driverId: string) => (state: RootState): Bet[] => {
     return state.driverBets[driverId] || [];
 };
 
-export const selectBetByType = (driverId: number, type: BetType) => (state: RootState): Bet | undefined => {
+export const selectBetByType = (driverId: string, type: BetType) => (state: RootState): Bet | undefined => {
     const bets = state.driverBets[driverId] || [];
     return bets.find(bet => bet.type === type);
 };
