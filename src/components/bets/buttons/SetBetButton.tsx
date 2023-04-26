@@ -28,6 +28,7 @@ const BetValue = styled.div<BetItemWrapperProps>`
   color: white;
   background-color: ${(props) => props.chipBackgroundColor};
   border-radius: 50%;
+  border: 2px dashed  ${(props) => props.color};;
 `;
 
 const SetBetLabel = styled.span`

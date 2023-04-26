@@ -11,7 +11,7 @@ interface Props {
     close: () => void;
 }
 
-const ModalBackground = styled.div`
+export const ModalBackground = styled.div`
 position:fixed;
 z-index:1;
 left:0;
@@ -20,19 +20,28 @@ width:100%;
 height:100%;
 overflow:auto;
 background-color: rgba(0,0,0,0.5)
+
 `
 const ModalBody = styled.div`
 
 background-color: white;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  width: 450px;
+  top: 5%;
+  bottom: 5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding: 15px;
+  width: 55%;
+   @media (max-width: 768px) {
+    width: 90%;
+  }
   display: flex; 
   flex-direction: column;
    align-items: center;
+   border-radius: 10px;
+   border: 2px solid gray;
+    overflow-y: auto; /* add vertical scroll if needed */
 `;
 
 const Button = styled.button`
@@ -42,9 +51,8 @@ const Button = styled.button`
   font-weight: 600;
   border: none;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px 5px;
   cursor: pointer;
-  margin-top: 20px;
   &:hover {
     background-color: #00a3d3;
   }

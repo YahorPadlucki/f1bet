@@ -16,7 +16,9 @@ import {
     selectDriverById,
     updateDriver
 } from './store/reducers/driversReducer';
-import { useSelector } from "react-redux";
+import {
+    useSelector
+} from "react-redux";
 import store, { useAppDispatch } from "./store/Store";
 import {
     currentLapDataState,
@@ -34,11 +36,19 @@ import {
 import BalanceBar from "./components/balance/BalanceBar";
 import { currentBalanceState } from "./store/reducers/balanceReducer";
 import styled from "styled-components";
+import RaceLights from "./components/RaceLights";
+import PlayPauseButton from "./components/PlayPauseButton";
+import ReactConfetti from "react-confetti";
 
 const AppWrapper = styled.div`
 height: 100vh;
 overflow: hidden;
+position: relative;
+
 `;
+
+const PLAY_SPEED_MS = 2000;
+
 
 function App() {
     const dispatch = useAppDispatch();
@@ -51,6 +61,9 @@ function App() {
 
     const [selectedDriver, setSelectedDriver] = useState<Driver | null>(null);
     const [isSetBetOpened, setIsSetBetOpened] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [raceStarted, setRaceStarted] = useState(false);
+    const [confetti, setConfetti] = useState(0);
     const drivers = useSelector(selectAllDrivers) || [];
 
     useEffect(() => {
@@ -70,8 +83,18 @@ function App() {
 
     useEffect(() => {
         currentLapData?.Timings.forEach((driver) => {
+            console.log("updateDriver changed");
+
             dispatch(updateDriver(driver));
         });
+
+        if (currentLap === totalLaps) {
+            setIsPlaying(false);
+            setConfetti(200);
+            setTimeout(() => {
+                setConfetti(0);
+            }, 2000)
+        }
     }, [currentLap]);
 
     useEffect(() => {
@@ -80,7 +103,8 @@ function App() {
                 driverId: driver.driverId,
                 driverPlace: +driver.position,
                 timeToLeader: +driver.timeToLeader,
-                currentLap: currentLap
+                currentLap: currentLap,
+                totalLaps: totalLaps
             }));
             selectBetsByDriverId(driver.driverId)(store.getState()).forEach((bet) => {
                 if (bet.state === 'lost') {
@@ -90,26 +114,38 @@ function App() {
                     }))
                 }
             });
+
+            if (selectedDriver?.driverId === driver.driverId) {
+                setSelectedDriver(driver);
+            }
         })
 
+
     }, [drivers]);
+
+    useEffect(() => {
+        if (!isPlaying || !raceStarted) return
+        const interval = setInterval(() => {
+            dispatch(setCurrentLap({currentLap: currentLap + 1}));
+        }, PLAY_SPEED_MS);
+        return () => clearInterval(interval);
+    }, [isPlaying, raceStarted, currentLap]);
 
 
     const handleCurrentLapChanged = (event: ChangeEvent<HTMLInputElement>) => {
         dispatch(setCurrentLap({currentLap: Number(event.target.value)}));
     };
 
-    function handleStart() {
-        console.log("Race started!");
+    function onPlayButtonClicked(isPlaying: boolean) {
+        setIsPlaying(isPlaying);
     }
 
-    function handlePause() {
-        console.log("Race paused!");
+    function OnLightsOut() {
+        setInterval(() => setRaceStarted(true), 1000);
+        setConfetti(200);
+        setInterval(() => setConfetti(0), 2000);
     }
 
-    function handleReset() {
-        console.log("Race reset!");
-    }
 
     function onDriverClicked(driverData: Driver) {
         console.log("onDriverClicked " + driverData.name)
@@ -119,8 +155,8 @@ function App() {
 
     return (
         <AppWrapper>
-
-            <RaceInfo title="2022 Australian Grand Prix" currentLap={currentLap} totalLaps={totalLaps}/>
+            <PlayPauseButton onClick={onPlayButtonClicked}/>
+            <RaceInfo title="Austrian Grand Prix" currentLap={currentLap} totalLaps={totalLaps}/>
             <Modal isOpened={isSetBetOpened} close={() => setIsSetBetOpened(false)}>
                 <DriverBetsList driver={selectedDriver!}/>
             </Modal>
@@ -130,10 +166,7 @@ function App() {
                 <input
                     type="range"
                     id="Current lap"
-                    style={{
-                        width: '100%',
-                        height: '3%'
-                    }}
+                    className={'slider'}
                     min={0}
                     max={totalLaps}
                     value={currentLap}
@@ -141,6 +174,8 @@ function App() {
                 />
             </>
             <BalanceBar balance={balance}/>
+            {!raceStarted && isPlaying && <RaceLights onLightsOut={OnLightsOut}/>}
+            <ReactConfetti numberOfPieces={confetti}/>
         </AppWrapper>
 
 

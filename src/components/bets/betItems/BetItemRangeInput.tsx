@@ -8,6 +8,7 @@ import BetIem, { BetIemProps } from "./BetIem";
 
 const Label = styled.label`
   margin-right: 10px;
+  margin-bottom: 5px;
 `;
 
 const InputWrapper = styled.div`
@@ -50,6 +51,7 @@ interface BetItemRangeInputProps extends BetIemProps {
 
 const BetItemRangeInput = ({
                                label,
+                               typeLabel,
                                minValue,
                                maxValue,
                                value,
@@ -79,9 +81,12 @@ const BetItemRangeInput = ({
 
 
     return (
-        <BetIem onSetBetClicked={onSetBetClicked} state={state} selectedBetValue={selectedBetValue}
+        <BetIem onSetBetClicked={onSetBetClicked}
+                state={state}
+                selectedBetValue={selectedBetValue}
                 winValue={winValue}
                 multiplier={multiplier}
+                typeLabel={typeLabel}
                 onWinCollectClicked={onWinCollectClicked}>
             <InputWrapper>
                 <InputContainer>

@@ -10,10 +10,12 @@ import {
 } from "react-redux";
 import {
     getBetItemBorderColors,
-    getTeamColorByDriverId,
     timeToString
 } from "../bets/betItems/utils";
-import { currentLapState } from "../../store/reducers/raceReducer";
+import {
+    currentLapState,
+    totalLapsState
+} from "../../store/reducers/raceReducer";
 import {
     useEffect,
     useState
@@ -22,6 +24,7 @@ import {
     jumpAnimation,
     shakeAnimation
 } from "../animations/animationUtils";
+import DriverName from "./DriverName";
 
 const StandingsRow = styled.div`
   display: flex;
@@ -52,19 +55,8 @@ justify-content: center;
   }
 `;
 
-const DriverName = styled.div`
- color: white;
- text-shadow: 1px 1px 0 black, -1px 1px 0 black, 1px -1px 0 black, -1px -1px 0 black;
- padding-left: 0.5rem;
- width: 90%;
- display: flex;
- font-weight: bold;
- align-items: center;
- border-radius: 0px 20px 20px 0px;
-
-`;
 const Place = styled.div`
-width:5%;
+padding-right: 5px  ;
  display: flex;
   justify-content: center;
 `;
@@ -88,6 +80,8 @@ const DriverStandingRow = ({driver, onDriverClicked}: StandingsRowProps) => {
 
     const bets: Bet[] = useSelector(selectBetsByDriverId(driver.driverId), shallowEqual);
     const currentLap = useSelector(currentLapState);
+    const totalLaps = useSelector(totalLapsState);
+
     let activeBet = bets.find(bet => bet.state === "set");
     let winningBet = bets.find(bet => bet.state === "won");
     const [betIsCloseToOutcome, setBetIsCloseToOutcome] = useState<Bet | undefined>(undefined);
@@ -104,12 +98,16 @@ const DriverStandingRow = ({driver, onDriverClicked}: StandingsRowProps) => {
                     case "gapToLeader":
                         if (driver.driverId === bet.driverId)
                             return bet.timeToLeaderOnLap === currentLap + 1;
+                        break;
+                    case "podiumFinish":
+                        if (driver.driverId === bet.driverId)
+                            return currentLap === totalLaps - 1;
                 }
             }
             return false;
         });
         setBetIsCloseToOutcome(closeToOutcomeBet);
-    }, [currentLap,bets]);
+    }, [currentLap, bets]);
 
 
     const statusColor = (): string => {
@@ -131,10 +129,7 @@ const DriverStandingRow = ({driver, onDriverClicked}: StandingsRowProps) => {
                 </BetStatusIcon>
             </Place>
 
-            <DriverName
-                style={{
-                    backgroundImage: `linear-gradient(to right, ${getTeamColorByDriverId(driver.driverId)}, #fff)`,
-                }}>{driver.name}</DriverName>
+            <DriverName driverName={driver.name} driverId={driver.driverId}/>
             <Time>{driver.timeToLeader > -1 ? timeToString(driver.timeToLeader) : ""}</Time>
         </StandingsRow>
     )

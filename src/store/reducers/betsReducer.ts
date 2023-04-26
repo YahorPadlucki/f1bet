@@ -65,14 +65,15 @@ const driverBetsSlice = createSlice({
                 state[driverId] = state[driverId].filter(bet => bet.type !== type);
             }
         },
-        updateBetWinState: (state, action: PayloadAction<{ driverId: string, driverPlace: number, currentLap: number, timeToLeader: number }>) => {
-            const {driverId, driverPlace, currentLap, timeToLeader} = action.payload;
+        updateBetWinState: (state, action: PayloadAction<{ driverId: string, driverPlace: number, currentLap: number, timeToLeader: number, totalLaps: number }>) => {
+            const {driverId, driverPlace, currentLap, timeToLeader, totalLaps} = action.payload;
             const updatedBets = state[driverId]?.map(bet => {
                 if (bet.state === "set") {
                     switch (bet.type) {
                         case "podiumFinish":
-                            //check if bet.podiumFinish is true and driver is in podium
-                            break;
+                            if (currentLap !== totalLaps)
+                                break;
+                            return updateWinState(bet, driverPlace <= 3);
                         case "endOfLap1Place":
                             if (currentLap !== 1)
                                 break;
@@ -96,7 +97,6 @@ const driverBetsSlice = createSlice({
 });
 
 const updateWinState = (bet: Bet, won: boolean) => {
-
     const state = won ? "won" : "lost";
     const winValue = won ? bet.betValue * bet.betMultiplayer : 0;
     return {...bet, state, won, winValue}

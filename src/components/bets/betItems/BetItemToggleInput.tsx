@@ -20,6 +20,7 @@ interface BetItemToggleInputProps extends BetIemProps {
 function BetItemToggleInput({
                                 state,
                                 label,
+                                typeLabel,
                                 onSetBetClicked,
                                 onChange,
                                 value,
@@ -35,7 +36,9 @@ function BetItemToggleInput({
 
     return (
         <BetIem onSetBetClicked={onSetBetClicked} state={state} selectedBetValue={selectedBetValue}
-                multiplier={multiplier} winValue={winValue} onWinCollectClicked={onWinCollectClicked}>
+                multiplier={multiplier} winValue={winValue} onWinCollectClicked={onWinCollectClicked}
+                typeLabel={typeLabel}
+        >
             <ToggleContainer>
                 <Toggleable htmlFor="on-podium">{label}</Toggleable>
                 <input type="checkbox" id="on-podium"

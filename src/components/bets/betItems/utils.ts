@@ -6,7 +6,7 @@ export const getBetItemBorderColors = (state: BetState) => {
             return {
                 borderColor: "#0095ff",
                 backgroundColor: "#e6f7ff",
-                color: "#000000",
+                color: "#1669a8",
                 chipBackgroundColor: "#0095ff",
                 setBetButtonBorder: "#0095ff"
             };

@@ -23,27 +23,59 @@ const ChipsContainer = styled.div`
 
 const ChipWrapper = styled.div<{ selected: boolean }>`
   display: inline-block;
+      z-index: 1;
+
   margin: 0 5px;
   cursor: pointer;
   opacity: ${(props) => (props.selected ? 1 : 0.6)};
+  
 `;
 
 export const Chip = styled.div<{ value: number; selected: boolean }>`
+  position: relative;
+  display: block;
+  margin: 15px auto;
   width: 50px;
   height: 50px;
+  border: 7px dashed white;
   border-radius: 50%;
-  background-color: white;
-  border: 2px solid #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
+  line-height: 50px;
+  text-align: center;
+  font-family: Helvetica;
+  color: white;
+
+  &:before {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: -8px;
+    border-radius: 50%;
+    background: green;
+    content: '';
+
+  }
+
+  &:after {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 3px;
+    border: 2px dashed white;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.4);
+
+    content: '';
+  }
   ${(props) =>
     props.selected &&
+    
     ` box-shadow: 0px 0px 6px #333;
-      background-color: #5cb85c;
   `}
 `;
 

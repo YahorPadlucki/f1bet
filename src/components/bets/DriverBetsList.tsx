@@ -15,8 +15,7 @@ import {
     Bet,
     removeBet,
     selectBetByType,
-    selectBetsByDriverId,
-    updateBet
+    selectBetsByDriverId
 } from "../../store/reducers/betsReducer";
 import {
     Driver,
@@ -44,17 +43,26 @@ import {
     decreaseBalance,
     increaseBalance
 } from "../../store/reducers/balanceReducer";
+import DriverName from "../standings/DriverName";
+import BetItemFixedEvent from "./betItems/BetItemFixedEvent";
 
 const SetBetsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap:13px;
+  width: 100%;
+  height: 100%;
+  gap:10px;
 `;
 
 interface SetBetProps {
     driver: Driver;
 }
+
+function lapsEnoughToBet(lapsLeft: number): boolean {
+    return lapsLeft > 5;
+}
+
 
 const DriverBetsList = ({driver}: SetBetProps) => {
     const dispatch: AppDispatch = useDispatch();
@@ -72,7 +80,6 @@ const DriverBetsList = ({driver}: SetBetProps) => {
     const gapOnLapMultiplayer = useSelector(gapOnLapMultiplayerState);
 
     const podiumFinishBet = useSelector(selectBetByType(driver.driverId, "podiumFinish"));
-    const [podiumFinish, setPodiumFinish] = useState(podiumFinishBet?.podiumFinish || false);
 
     const endOfLap1PlaceBet = useSelector(selectBetByType(driver.driverId, "endOfLap1Place"));
     const [endOfLap1Place, setEndOfLap1Place] = useState(driver.position);
@@ -85,6 +92,7 @@ const DriverBetsList = ({driver}: SetBetProps) => {
     const [gap, setGap] = useState(5);
     const [gapOnLap, setGapOnLap] = useState(5);
 
+
     useEffect(() => {
         updateEndOfLap1Multiplayer();
     }, [endOfLap1Place])
@@ -95,7 +103,10 @@ const DriverBetsList = ({driver}: SetBetProps) => {
 
     useEffect(() => {
         updatePodiumFinishMultiplayer();
-        setOnLap(currentLap + 1);
+        if (lapsEnoughToBet(lapsLeft)) {
+            setOnLap(currentLap + 1);
+            setGapOnLap(currentLap + 1);
+        }
     }, [currentLap])
 
     useEffect(() => {
@@ -184,7 +195,7 @@ const DriverBetsList = ({driver}: SetBetProps) => {
         dispatch(addBet({
             driverId: driver.driverId,
             type: "podiumFinish",
-            podiumFinish: podiumFinish,
+            podiumFinish: true,
             betValue: selectedChip,
             betMultiplayer: podiumFinishMultiplier,
             state: "set"
@@ -216,47 +227,48 @@ const DriverBetsList = ({driver}: SetBetProps) => {
     }
 
     function onPodiumFinishWinCollectClicked(): void {
-
+        dispatch(increaseBalance({amount: podiumFinishBet!.winValue as number}));
+        dispatch(removeBet({
+            driverId: driver.driverId,
+            type: "podiumFinish"
+        }))
     }
 
-    function getPodiumFinishState(): BetState {
-        return podiumFinishBet?.state ? podiumFinishBet.state : lapsLeft > 5 ? "default" : "disabled";
+    function getBetState(bet: Bet | undefined): BetState {
+        return bet?.state ? bet.state : lapsEnoughToBet(lapsLeft) ? "default" : "disabled";
     }
 
-    function getEndOfLap1State(): BetState {
-        return endOfLap1PlaceBet?.state ? endOfLap1PlaceBet.state : currentLap > 1 ? "disabled" : "default";
+    function getMultiplier(bet: Bet | undefined, defaultMultiplayer: number): number {
+        if (getBetState(bet) === "won") return bet!.betMultiplayer;
+        return bet?.state === "set" ? bet.betMultiplayer : getBetState(bet) === "default" ? defaultMultiplayer : 1;
     }
 
-    function getPlaceOnLapState(): BetState {
-        return placeOnLapBet?.state || "default";
-    }
-
-    function getGapOnLapState(): BetState {
-        return gapOnLapBet?.state || "default";
-    }
 
     return (
 
         <SetBetsWrapper>
-            <label>{driver.name}</label>
-            <label>Curren lap: {currentLap}/{totalLaps}</label>
-            <label>Curren position: {driver.position}</label>
+            <DriverName driverName={driver.name} driverId={driver.driverId}/>
+            <label>Lap: {currentLap}/{totalLaps}</label>
+            <label>Position: {driver.position}</label>
+            {driver.timeToLeader > 0 && <label>Gap to leader: {driver.timeToLeader}</label>}
             <BetItemRangeInput
                 label="End of lap 1 place:"
+                typeLabel="Start"
                 minValue={1}
                 maxValue={totalDrivers}
                 value={endOfLap1PlaceBet?.endOfLap1Place || endOfLap1Place}
                 onChange={onendOfLap1PlaceChange}
                 onSetBetClicked={setEndOfLap1PlaceBet}
                 selectedBetValue={endOfLap1PlaceBet?.state === "set" ? endOfLap1PlaceBet.betValue : selectedChip}
-                state={getEndOfLap1State()}
-                multiplier={endOfLap1Multiplier}
+                state={currentLap > 0 && getBetState(endOfLap1PlaceBet) !== "won" ? "disabled" : getBetState(endOfLap1PlaceBet)}
+                multiplier={getMultiplier(endOfLap1PlaceBet, endOfLap1Multiplier)}
                 winValue={endOfLap1PlaceBet?.winValue || 0}
                 onWinCollectClicked={onEndOfLap1WinCollectClicked}
             />
 
             <BetItemRangeInput
                 label="Place:"
+                typeLabel="Place"
                 minValue={1}
                 maxValue={totalDrivers}
                 value={placeOnLapBet?.place || place}
@@ -268,14 +280,15 @@ const DriverBetsList = ({driver}: SetBetProps) => {
                 onChange2={setOnLap}
                 onSetBetClicked={setPlaceOnLapBet}
                 selectedBetValue={placeOnLapBet?.state === "set" ? placeOnLapBet.betValue : selectedChip}
-                state={getPlaceOnLapState()}
-                multiplier={placeOnLapMultiplayer}
+                state={getBetState(placeOnLapBet)}
+                multiplier={getMultiplier(placeOnLapBet, placeOnLapMultiplayer)}
                 winValue={placeOnLapBet?.winValue || 0}
                 onWinCollectClicked={onPlaceOnLapWinCollectClicked}
             />
 
             <BetItemRangeInput
                 label="Gap to leader:"
+                typeLabel="Gap"
                 minValue={1}
                 maxValue={30}
                 value={gapOnLapBet?.timeToLeader || gap}
@@ -287,44 +300,20 @@ const DriverBetsList = ({driver}: SetBetProps) => {
                 onChange2={setGapOnLap}
                 onSetBetClicked={setGapOnLapBet}
                 selectedBetValue={gapOnLapBet?.state === "set" ? gapOnLapBet.betValue : selectedChip}
-                state={getGapOnLapState()}
-                multiplier={gapOnLapMultiplayer}
+                state={getBetState(gapOnLapBet)}
+                multiplier={getMultiplier(gapOnLapBet, gapOnLapMultiplayer)}
                 winValue={gapOnLapBet?.winValue || 0}
                 onWinCollectClicked={onGapOnLapWinCollectClicked}
             />
 
-            {/*<BetItemRangeInput*/}
-            {/*    label="Will pit on lap:"*/}
-            {/*    minValue="1"*/}
-            {/*    maxValue="53"*/}
-            {/*    defaultVal="10"*/}
-            {/*    onChange={handlePlacesGainedLostChange}*/}
-            {/*    state="active"*/}
-            {/*/>*/}
-
-            {/*<BetItemRangeInput*/}
-            {/*    label="Gap to leader:"*/}
-            {/*    minValue="0"*/}
-            {/*    maxValue="210"*/}
-            {/*    defaultVal="5"*/}
-            {/*    onChange={handlePlacesGainedLostChange}*/}
-            {/*    label2="OnLap:"*/}
-            {/*    minValue2="1"*/}
-            {/*    maxValue2="53"*/}
-            {/*    defaultVal2="8"*/}
-            {/*    onChange2={handlePlacesGainedLostChange}*/}
-            {/*    state="default"*/}
-            {/*/>*/}
-
-            <BetItemToggleInput
+            <BetItemFixedEvent
                 label="Podium finish"
-                value={podiumFinishBet?.podiumFinish || podiumFinish}
-                onChange={setPodiumFinish}
+                typeLabel="Podium"
                 onSetBetClicked={setPodiumFinishBet}
-                multiplier={podiumFinishMultiplier}
+                multiplier={getMultiplier(podiumFinishBet, podiumFinishMultiplier)}
                 winValue={podiumFinishBet?.winValue || 0}
                 selectedBetValue={podiumFinishBet?.state === "set" ? podiumFinishBet.betValue : selectedChip}
-                state={getPodiumFinishState()}
+                state={getBetState(podiumFinishBet)}
                 onWinCollectClicked={onPodiumFinishWinCollectClicked}/>
             <BettingChips/>
         </SetBetsWrapper>
