@@ -28,10 +28,8 @@ import DriverName from "./DriverName";
 
 const StandingsRow = styled.div`
   display: flex;
-  justify-content: space-between;
   padding: 0.5rem;
-    cursor: pointer;
-    
+  cursor: pointer;
 `;
 
 const BetStatusIcon = styled.div<{ color: string, }>`
@@ -59,11 +57,12 @@ const Place = styled.div`
 padding-right: 5px  ;
  display: flex;
   justify-content: center;
+  
 `;
 
 const Time = styled.div`
-width:10%;
-text-align: center;
+text-align: left;
+margin-left: -1 rem;
 `;
 
 

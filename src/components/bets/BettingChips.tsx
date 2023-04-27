@@ -19,12 +19,14 @@ interface ChipProps {
 const ChipsContainer = styled.div`
     display: flex;
     justify-content: center;
+   
+  
+    
     `;
 
 const ChipWrapper = styled.div<{ selected: boolean }>`
   display: inline-block;
-      z-index: 1;
-
+  z-index: 1;
   margin: 0 5px;
   cursor: pointer;
   opacity: ${(props) => (props.selected ? 1 : 0.6)};
@@ -37,9 +39,17 @@ export const Chip = styled.div<{ value: number; selected: boolean }>`
   margin: 15px auto;
   width: 50px;
   height: 50px;
+    line-height: 50px;
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-weight:bold;
+  }
+  
   border: 7px dashed white;
   border-radius: 50%;
-  line-height: 50px;
+
   text-align: center;
   font-family: Helvetica;
   color: white;
@@ -74,7 +84,7 @@ export const Chip = styled.div<{ value: number; selected: boolean }>`
   }
   ${(props) =>
     props.selected &&
-    
+
     ` box-shadow: 0px 0px 6px #333;
   `}
 `;

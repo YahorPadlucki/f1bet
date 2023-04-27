@@ -274,7 +274,7 @@ const DriverBetsList = ({driver}: SetBetProps) => {
                 value={placeOnLapBet?.place || place}
                 onChange={setPlace}
                 label2="OnLap:"
-                minValue2={currentLap + 1}
+                minValue2={currentLap + 2}
                 maxValue2={totalLaps}
                 value2={placeOnLapBet?.onLap || onLap}
                 onChange2={setOnLap}

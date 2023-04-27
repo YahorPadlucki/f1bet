@@ -44,7 +44,6 @@ const AppWrapper = styled.div`
 height: 100vh;
 overflow: hidden;
 position: relative;
-
 `;
 
 const PLAY_SPEED_MS = 2000;
