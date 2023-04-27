@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import BetIem, { BetIemProps } from "./BetIem";
-import { FC } from "react";
+import { type FC } from "react";
 
 const Label = styled.label`
   padding-left: 50px;
   font-size: 20px;
 `;
-
 
 const BetItemFixedEvent: FC<BetIemProps> = ({
                                                 state,
@@ -16,18 +15,21 @@ const BetItemFixedEvent: FC<BetIemProps> = ({
                                                 selectedBetValue,
                                                 multiplier,
                                                 winValue,
-                                                onWinCollectClicked
+                                                onWinCollectClicked,
                                             }: BetIemProps) => {
-
-
     return (
-        <BetIem onSetBetClicked={onSetBetClicked} state={state} selectedBetValue={selectedBetValue}
-                multiplier={multiplier} winValue={winValue} onWinCollectClicked={onWinCollectClicked}
-                typeLabel={typeLabel}
+        <BetIem
+            onSetBetClicked={onSetBetClicked}
+            state={state}
+            selectedBetValue={selectedBetValue}
+            multiplier={multiplier}
+            winValue={winValue}
+            onWinCollectClicked={onWinCollectClicked}
+            typeLabel={typeLabel}
         >
             <Label>{label}</Label>
         </BetIem>
     );
-}
+};
 
 export default BetItemFixedEvent;

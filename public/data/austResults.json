@@ -1,6 +1,6 @@
 {
   "MRData": {
-    "xmlns": "http:\/\/ergast.com\/mrd\/1.5",
+    "xmlns": "http://ergast.com/mrd/1.5",
     "series": "f1",
     "url": "http://ergast.com/api/f1/2019/9/results.json",
     "limit": "30",
@@ -13,7 +13,7 @@
         {
           "season": "2019",
           "round": "9",
-          "url": "http:\/\/en.wikipedia.org\/wiki\/2019_Austrian_Grand_Prix",
+          "url": "http://en.wikipedia.org/wiki/2019_Austrian_Grand_Prix",
           "raceName": "Austrian Grand Prix",
           "Circuit": {
             "circuitId": "red_bull_ring",
@@ -38,7 +38,7 @@
                 "driverId": "max_verstappen",
                 "permanentNumber": "33",
                 "code": "VER",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Max_Verstappen",
+                "url": "http://en.wikipedia.org/wiki/Max_Verstappen",
                 "givenName": "Max",
                 "familyName": "Verstappen",
                 "dateOfBirth": "1997-09-30",
@@ -46,7 +46,7 @@
               },
               "Constructor": {
                 "constructorId": "red_bull",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Red_Bull_Racing",
+                "url": "http://en.wikipedia.org/wiki/Red_Bull_Racing",
                 "name": "Red Bull",
                 "nationality": "Austrian"
               },
@@ -78,7 +78,7 @@
                 "driverId": "leclerc",
                 "permanentNumber": "16",
                 "code": "LEC",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Charles_Leclerc",
+                "url": "http://en.wikipedia.org/wiki/Charles_Leclerc",
                 "givenName": "Charles",
                 "familyName": "Leclerc",
                 "dateOfBirth": "1997-10-16",
@@ -86,7 +86,7 @@
               },
               "Constructor": {
                 "constructorId": "ferrari",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Scuderia_Ferrari",
+                "url": "http://en.wikipedia.org/wiki/Scuderia_Ferrari",
                 "name": "Ferrari",
                 "nationality": "Italian"
               },
@@ -118,7 +118,7 @@
                 "driverId": "bottas",
                 "permanentNumber": "77",
                 "code": "BOT",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Valtteri_Bottas",
+                "url": "http://en.wikipedia.org/wiki/Valtteri_Bottas",
                 "givenName": "Valtteri",
                 "familyName": "Bottas",
                 "dateOfBirth": "1989-08-28",
@@ -126,7 +126,7 @@
               },
               "Constructor": {
                 "constructorId": "mercedes",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Mercedes-Benz_in_Formula_One",
+                "url": "http://en.wikipedia.org/wiki/Mercedes-Benz_in_Formula_One",
                 "name": "Mercedes",
                 "nationality": "German"
               },
@@ -158,7 +158,7 @@
                 "driverId": "vettel",
                 "permanentNumber": "5",
                 "code": "VET",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Sebastian_Vettel",
+                "url": "http://en.wikipedia.org/wiki/Sebastian_Vettel",
                 "givenName": "Sebastian",
                 "familyName": "Vettel",
                 "dateOfBirth": "1987-07-03",
@@ -166,7 +166,7 @@
               },
               "Constructor": {
                 "constructorId": "ferrari",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Scuderia_Ferrari",
+                "url": "http://en.wikipedia.org/wiki/Scuderia_Ferrari",
                 "name": "Ferrari",
                 "nationality": "Italian"
               },
@@ -198,7 +198,7 @@
                 "driverId": "hamilton",
                 "permanentNumber": "44",
                 "code": "HAM",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Lewis_Hamilton",
+                "url": "http://en.wikipedia.org/wiki/Lewis_Hamilton",
                 "givenName": "Lewis",
                 "familyName": "Hamilton",
                 "dateOfBirth": "1985-01-07",
@@ -206,7 +206,7 @@
               },
               "Constructor": {
                 "constructorId": "mercedes",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Mercedes-Benz_in_Formula_One",
+                "url": "http://en.wikipedia.org/wiki/Mercedes-Benz_in_Formula_One",
                 "name": "Mercedes",
                 "nationality": "German"
               },
@@ -238,7 +238,7 @@
                 "driverId": "norris",
                 "permanentNumber": "4",
                 "code": "NOR",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Lando_Norris",
+                "url": "http://en.wikipedia.org/wiki/Lando_Norris",
                 "givenName": "Lando",
                 "familyName": "Norris",
                 "dateOfBirth": "1999-11-13",
@@ -246,7 +246,7 @@
               },
               "Constructor": {
                 "constructorId": "mclaren",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/McLaren",
+                "url": "http://en.wikipedia.org/wiki/McLaren",
                 "name": "McLaren",
                 "nationality": "British"
               },
@@ -274,7 +274,7 @@
                 "driverId": "gasly",
                 "permanentNumber": "10",
                 "code": "GAS",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Pierre_Gasly",
+                "url": "http://en.wikipedia.org/wiki/Pierre_Gasly",
                 "givenName": "Pierre",
                 "familyName": "Gasly",
                 "dateOfBirth": "1996-02-07",
@@ -282,7 +282,7 @@
               },
               "Constructor": {
                 "constructorId": "red_bull",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Red_Bull_Racing",
+                "url": "http://en.wikipedia.org/wiki/Red_Bull_Racing",
                 "name": "Red Bull",
                 "nationality": "Austrian"
               },
@@ -310,7 +310,7 @@
                 "driverId": "sainz",
                 "permanentNumber": "55",
                 "code": "SAI",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Carlos_Sainz_Jr.",
+                "url": "http://en.wikipedia.org/wiki/Carlos_Sainz_Jr.",
                 "givenName": "Carlos",
                 "familyName": "Sainz",
                 "dateOfBirth": "1994-09-01",
@@ -318,7 +318,7 @@
               },
               "Constructor": {
                 "constructorId": "mclaren",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/McLaren",
+                "url": "http://en.wikipedia.org/wiki/McLaren",
                 "name": "McLaren",
                 "nationality": "British"
               },
@@ -346,7 +346,7 @@
                 "driverId": "raikkonen",
                 "permanentNumber": "7",
                 "code": "RAI",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Kimi_R%C3%A4ikk%C3%B6nen",
+                "url": "http://en.wikipedia.org/wiki/Kimi_R%C3%A4ikk%C3%B6nen",
                 "givenName": "Kimi",
                 "familyName": "Räikkönen",
                 "dateOfBirth": "1979-10-17",
@@ -354,7 +354,7 @@
               },
               "Constructor": {
                 "constructorId": "alfa",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Alfa_Romeo_in_Formula_One",
+                "url": "http://en.wikipedia.org/wiki/Alfa_Romeo_in_Formula_One",
                 "name": "Alfa Romeo",
                 "nationality": "Swiss"
               },
@@ -382,7 +382,7 @@
                 "driverId": "giovinazzi",
                 "permanentNumber": "99",
                 "code": "GIO",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Antonio_Giovinazzi",
+                "url": "http://en.wikipedia.org/wiki/Antonio_Giovinazzi",
                 "givenName": "Antonio",
                 "familyName": "Giovinazzi",
                 "dateOfBirth": "1993-12-14",
@@ -390,7 +390,7 @@
               },
               "Constructor": {
                 "constructorId": "alfa",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Alfa_Romeo_in_Formula_One",
+                "url": "http://en.wikipedia.org/wiki/Alfa_Romeo_in_Formula_One",
                 "name": "Alfa Romeo",
                 "nationality": "Swiss"
               },
@@ -418,7 +418,7 @@
                 "driverId": "perez",
                 "permanentNumber": "11",
                 "code": "PER",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Sergio_P%C3%A9rez",
+                "url": "http://en.wikipedia.org/wiki/Sergio_P%C3%A9rez",
                 "givenName": "Sergio",
                 "familyName": "Pérez",
                 "dateOfBirth": "1990-01-26",
@@ -426,7 +426,7 @@
               },
               "Constructor": {
                 "constructorId": "racing_point",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Racing_Point_F1_Team",
+                "url": "http://en.wikipedia.org/wiki/Racing_Point_F1_Team",
                 "name": "Racing Point",
                 "nationality": "British"
               },
@@ -454,7 +454,7 @@
                 "driverId": "ricciardo",
                 "permanentNumber": "3",
                 "code": "RIC",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Daniel_Ricciardo",
+                "url": "http://en.wikipedia.org/wiki/Daniel_Ricciardo",
                 "givenName": "Daniel",
                 "familyName": "Ricciardo",
                 "dateOfBirth": "1989-07-01",
@@ -462,7 +462,7 @@
               },
               "Constructor": {
                 "constructorId": "renault",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Renault_in_Formula_One",
+                "url": "http://en.wikipedia.org/wiki/Renault_in_Formula_One",
                 "name": "Renault",
                 "nationality": "French"
               },
@@ -490,7 +490,7 @@
                 "driverId": "hulkenberg",
                 "permanentNumber": "27",
                 "code": "HUL",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Nico_H%C3%BClkenberg",
+                "url": "http://en.wikipedia.org/wiki/Nico_H%C3%BClkenberg",
                 "givenName": "Nico",
                 "familyName": "Hülkenberg",
                 "dateOfBirth": "1987-08-19",
@@ -498,7 +498,7 @@
               },
               "Constructor": {
                 "constructorId": "renault",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Renault_in_Formula_One",
+                "url": "http://en.wikipedia.org/wiki/Renault_in_Formula_One",
                 "name": "Renault",
                 "nationality": "French"
               },
@@ -526,7 +526,7 @@
                 "driverId": "stroll",
                 "permanentNumber": "18",
                 "code": "STR",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Lance_Stroll",
+                "url": "http://en.wikipedia.org/wiki/Lance_Stroll",
                 "givenName": "Lance",
                 "familyName": "Stroll",
                 "dateOfBirth": "1998-10-29",
@@ -534,7 +534,7 @@
               },
               "Constructor": {
                 "constructorId": "racing_point",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Racing_Point_F1_Team",
+                "url": "http://en.wikipedia.org/wiki/Racing_Point_F1_Team",
                 "name": "Racing Point",
                 "nationality": "British"
               },
@@ -562,7 +562,7 @@
                 "driverId": "albon",
                 "permanentNumber": "23",
                 "code": "ALB",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Alexander_Albon",
+                "url": "http://en.wikipedia.org/wiki/Alexander_Albon",
                 "givenName": "Alexander",
                 "familyName": "Albon",
                 "dateOfBirth": "1996-03-23",
@@ -570,7 +570,7 @@
               },
               "Constructor": {
                 "constructorId": "toro_rosso",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Scuderia_Toro_Rosso",
+                "url": "http://en.wikipedia.org/wiki/Scuderia_Toro_Rosso",
                 "name": "Toro Rosso",
                 "nationality": "Italian"
               },
@@ -598,7 +598,7 @@
                 "driverId": "grosjean",
                 "permanentNumber": "8",
                 "code": "GRO",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Romain_Grosjean",
+                "url": "http://en.wikipedia.org/wiki/Romain_Grosjean",
                 "givenName": "Romain",
                 "familyName": "Grosjean",
                 "dateOfBirth": "1986-04-17",
@@ -606,7 +606,7 @@
               },
               "Constructor": {
                 "constructorId": "haas",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Haas_F1_Team",
+                "url": "http://en.wikipedia.org/wiki/Haas_F1_Team",
                 "name": "Haas F1 Team",
                 "nationality": "American"
               },
@@ -634,7 +634,7 @@
                 "driverId": "kvyat",
                 "permanentNumber": "26",
                 "code": "KVY",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Daniil_Kvyat",
+                "url": "http://en.wikipedia.org/wiki/Daniil_Kvyat",
                 "givenName": "Daniil",
                 "familyName": "Kvyat",
                 "dateOfBirth": "1994-04-26",
@@ -642,7 +642,7 @@
               },
               "Constructor": {
                 "constructorId": "toro_rosso",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Scuderia_Toro_Rosso",
+                "url": "http://en.wikipedia.org/wiki/Scuderia_Toro_Rosso",
                 "name": "Toro Rosso",
                 "nationality": "Italian"
               },
@@ -670,7 +670,7 @@
                 "driverId": "russell",
                 "permanentNumber": "63",
                 "code": "RUS",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/George_Russell_%28racing_driver%29",
+                "url": "http://en.wikipedia.org/wiki/George_Russell_%28racing_driver%29",
                 "givenName": "George",
                 "familyName": "Russell",
                 "dateOfBirth": "1998-02-15",
@@ -678,7 +678,7 @@
               },
               "Constructor": {
                 "constructorId": "williams",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Williams_Grand_Prix_Engineering",
+                "url": "http://en.wikipedia.org/wiki/Williams_Grand_Prix_Engineering",
                 "name": "Williams",
                 "nationality": "British"
               },
@@ -706,7 +706,7 @@
                 "driverId": "kevin_magnussen",
                 "permanentNumber": "20",
                 "code": "MAG",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Kevin_Magnussen",
+                "url": "http://en.wikipedia.org/wiki/Kevin_Magnussen",
                 "givenName": "Kevin",
                 "familyName": "Magnussen",
                 "dateOfBirth": "1992-10-05",
@@ -714,7 +714,7 @@
               },
               "Constructor": {
                 "constructorId": "haas",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Haas_F1_Team",
+                "url": "http://en.wikipedia.org/wiki/Haas_F1_Team",
                 "name": "Haas F1 Team",
                 "nationality": "American"
               },
@@ -742,7 +742,7 @@
                 "driverId": "kubica",
                 "permanentNumber": "88",
                 "code": "KUB",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Robert_Kubica",
+                "url": "http://en.wikipedia.org/wiki/Robert_Kubica",
                 "givenName": "Robert",
                 "familyName": "Kubica",
                 "dateOfBirth": "1984-12-07",
@@ -750,7 +750,7 @@
               },
               "Constructor": {
                 "constructorId": "williams",
-                "url": "http:\/\/en.wikipedia.org\/wiki\/Williams_Grand_Prix_Engineering",
+                "url": "http://en.wikipedia.org/wiki/Williams_Grand_Prix_Engineering",
                 "name": "Williams",
                 "nationality": "British"
               },

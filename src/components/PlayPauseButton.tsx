@@ -1,14 +1,14 @@
-import React, {
-    FC,
+import {
+    type FC,
     useState
-} from 'react';
-import styled from 'styled-components';
+} from "react";
+import styled from "styled-components";
 
-interface Props {
+interface PlayPauseButtonProps {
     onClick: (isPlaying: boolean) => void;
 }
 
-const PlayPauseButton: FC<Props> = ({ onClick }) => {
+const PlayPauseButton: FC<PlayPauseButtonProps> = ({onClick}) => {
     const [isPlaying, setIsPlaying] = useState(false);
 
     const handleButtonClick = () => {
@@ -19,7 +19,7 @@ const PlayPauseButton: FC<Props> = ({ onClick }) => {
 
     return (
         <ButtonContainer onClick={handleButtonClick} isPlaying={isPlaying}>
-            {isPlaying ? '||' : '>'}
+            {isPlaying ? "||" : ">"}
         </ButtonContainer>
     );
 };
@@ -34,7 +34,7 @@ const ButtonContainer = styled.button<ButtonContainerProps>`
   left: 5px;
   width: 20px;
   height: 20px;
-  background-color: ${({ isPlaying }) => (isPlaying ? 'red' : 'green')};
+  background-color: ${({isPlaying}) => (isPlaying ? "red" : "green")};
   color: white;
   border: none;
   border-radius: 5px;

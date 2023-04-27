@@ -8,7 +8,7 @@ export const getBetItemBorderColors = (state: BetState) => {
                 backgroundColor: "#e6f7ff",
                 color: "#1669a8",
                 chipBackgroundColor: "#0095ff",
-                setBetButtonBorder: "#0095ff"
+                setBetButtonBorder: "#0095ff",
             };
         case "disabled":
             return {
@@ -16,7 +16,7 @@ export const getBetItemBorderColors = (state: BetState) => {
                 backgroundColor: "#f2f2f2",
                 color: "#8c8c8c",
                 chipBackgroundColor: "#d9d9d9",
-                setBetButtonBorder: "#d9d9d9"
+                setBetButtonBorder: "#d9d9d9",
             };
         case "won":
             return {
@@ -24,7 +24,7 @@ export const getBetItemBorderColors = (state: BetState) => {
                 backgroundColor: "#8ffd87",
                 color: "#000000",
                 chipBackgroundColor: "#5cb85c",
-                setBetButtonBorder: "#0095ff"
+                setBetButtonBorder: "#0095ff",
             };
         default:
             return {
@@ -32,57 +32,53 @@ export const getBetItemBorderColors = (state: BetState) => {
                 backgroundColor: "#ffffff",
                 color: "#000000",
                 chipBackgroundColor: "#5cb85c",
-                setBetButtonBorder: "#5cb85c"
+                setBetButtonBorder: "#5cb85c",
             };
     }
 };
 
-export const getTeamColorByDriverId = (driverId: string):string => {
+export const getTeamColorByDriverId = (driverId: string): string => {
     switch (driverId) {
         case "hamilton":
         case "bottas":
             return "#00D2BE";
         case "raikkonen":
         case "giovinazzi":
-            return "#900000"
+            return "#900000";
         case "leclerc":
         case "vettel":
-            return "#DC0000"
+            return "#DC0000";
         case "grosjean":
         case "kevin_magnussen":
-            return "#bdbbbb"
+            return "#bdbbbb";
         case "norris":
         case "sainz":
-            return "#FF8700"
+            return "#FF8700";
         case "perez":
         case "stroll":
-            return "#F363B9"
+            return "#F363B9";
         case "max_verstappen":
         case "gasly":
-            return "#0600EF"
+            return "#0600EF";
         case "ricciardo":
         case "hulkenberg":
-            return "#FFF500"
+            return "#FFF500";
         case "albon":
         case "kvyat":
-            return "#469BFF"
+            return "#469BFF";
         case "russell":
         case "kubica":
-            return "#005AFF"
-
+            return "#005AFF";
     }
     return "#FFFFFF";
-}
-
-
-
+};
 
 /**
  * Converts minute:seconds.mili to seconds at racing precision.
  * @param time (String) The racing time
  * @returns (Number) Total number of seconds
  */
-export function parseTime(time: string):number {
+export function parseTime(time: string): number {
     return (
         parseInt(time.slice(0, time.indexOf(":"))) * 60 +
         parseInt(time.slice(time.indexOf(":") + 1, time.indexOf("."))) +
@@ -97,7 +93,7 @@ export function parseTime(time: string):number {
  * @returns (Number) Number of seconds to leader
  */
 
-export function calcTimeToLeader(leaderTime:number, time:number) {
+export function calcTimeToLeader(leaderTime: number, time: number) {
     return Math.round((time - leaderTime + Number.EPSILON) * 1000) / 1000;
 }
 
@@ -106,7 +102,7 @@ export function calcTimeToLeader(leaderTime:number, time:number) {
  * @param time (Number) The racing time
  * @returns (String) Total number of seconds
  */
-export function timeToString(time:number):string {
+export function timeToString(time: number): string {
     const timeString = time + "";
     let numMili = "000";
     if (timeString.includes(".")) {

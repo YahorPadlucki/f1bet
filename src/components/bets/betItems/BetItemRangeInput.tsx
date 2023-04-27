@@ -1,10 +1,9 @@
-import React, {
+import {
     ChangeEvent,
-    FC
+    type FC
 } from "react";
 import styled from "styled-components";
 import BetIem, { BetIemProps } from "./BetIem";
-
 
 const Label = styled.label`
   margin-right: 10px;
@@ -20,7 +19,6 @@ const Input = styled.input`
   margin-right: 10px;
 `;
 
-
 const Value = styled.span`
   margin-right: 10px;
   font-weight: bold;
@@ -32,9 +30,9 @@ const Value = styled.span`
 `;
 
 const InputContainer = styled.div`
- display: flex;
- flex-direction: column;
- align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 interface BetItemRangeInputProps extends BetIemProps {
@@ -50,25 +48,24 @@ interface BetItemRangeInputProps extends BetIemProps {
 }
 
 const BetItemRangeInput: FC<BetItemRangeInputProps> = ({
-                               label,
-                               typeLabel,
-                               minValue,
-                               maxValue,
-                               value,
-                               onChange,
-                               state = "default",
-                               label2,
-                               minValue2,
-                               maxValue2,
-                               value2,
-                               onChange2,
-                               onSetBetClicked,
-                               selectedBetValue,
-                               multiplier,
-                               winValue,
-                               onWinCollectClicked
-                           }) => {
-
+                                                           label,
+                                                           typeLabel,
+                                                           minValue,
+                                                           maxValue,
+                                                           value,
+                                                           onChange,
+                                                           state = "default",
+                                                           label2,
+                                                           minValue2,
+                                                           maxValue2,
+                                                           value2,
+                                                           onChange2,
+                                                           onSetBetClicked,
+                                                           selectedBetValue,
+                                                           multiplier,
+                                                           winValue,
+                                                           onWinCollectClicked,
+                                                       }) => {
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         onChange(Number(event.target.value));
     };
@@ -77,17 +74,18 @@ const BetItemRangeInput: FC<BetItemRangeInputProps> = ({
             onChange2(Number(event.target.value));
         }
     };
-    const isDisabled = state === "disabled" || state === "set" || state === "won";
-
+    const isDisabled = ["disabled", "set", "won"].includes(state);
 
     return (
-        <BetIem onSetBetClicked={onSetBetClicked}
-                state={state}
-                selectedBetValue={selectedBetValue}
-                winValue={winValue}
-                multiplier={multiplier}
-                typeLabel={typeLabel}
-                onWinCollectClicked={onWinCollectClicked}>
+        <BetIem
+            onSetBetClicked={onSetBetClicked}
+            state={state}
+            selectedBetValue={selectedBetValue}
+            winValue={winValue}
+            multiplier={multiplier}
+            typeLabel={typeLabel}
+            onWinCollectClicked={onWinCollectClicked}
+        >
             <InputWrapper>
                 <InputContainer>
                     <Label htmlFor={label}>{label}</Label>
@@ -102,12 +100,10 @@ const BetItemRangeInput: FC<BetItemRangeInputProps> = ({
                     />
                 </InputContainer>
                 <Value>{value}</Value>
-
             </InputWrapper>
             {label2 && minValue2 && maxValue2 && value2 && onChange2 && (
                 <InputWrapper>
                     <InputContainer>
-
                         <Label htmlFor={label2}>{label2}</Label>
                         <Input
                             type="range"
@@ -120,7 +116,8 @@ const BetItemRangeInput: FC<BetItemRangeInputProps> = ({
                         />
                     </InputContainer>
                     <Value>{value2}</Value>
-                </InputWrapper>)}
+                </InputWrapper>
+            )}
         </BetIem>
     );
 };

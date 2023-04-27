@@ -1,19 +1,19 @@
 import {
     createSlice,
     PayloadAction
-} from '@reduxjs/toolkit';
-import { RootState } from "../Store";
+} from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
 interface BalanceState {
     balance: number;
 }
 
 const initialState: BalanceState = {
-    balance: 500
+    balance: 500,
 };
 
 export const balanceSlice = createSlice({
-    name: 'balance',
+    name: "balance",
     initialState,
     reducers: {
         increaseBalance: (state, action: PayloadAction<{ amount: number }>) => {
@@ -26,6 +26,7 @@ export const balanceSlice = createSlice({
 });
 
 export const {increaseBalance, decreaseBalance} = balanceSlice.actions;
-export const currentBalanceState = (state: RootState): number => state.balance.balance;
+export const currentBalanceState = (state: RootState): number =>
+    state.balance.balance;
 
 export default balanceSlice.reducer;

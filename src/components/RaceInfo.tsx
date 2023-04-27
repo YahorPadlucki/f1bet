@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FC } from "react";
+import { type FC } from "react";
 
 interface RaceInfoProps {
     title: string;
@@ -22,7 +22,7 @@ const Background = styled.div`
   left: 0;
   height: 100%;
   width: 100%;
-  background-image: url('./austBack.png'); 
+  background-image: url("./austBack.png");
   background-size: cover;
   background-position: center;
   filter: brightness(50%);
@@ -31,26 +31,27 @@ const Background = styled.div`
 const Title = styled.h1`
   font-size: 32px;
   text-align: center;
-color: #FFFFFF;
+  color: #ffffff;
   margin: 0;
 `;
 
 const LapInfo = styled.p`
   font-size: 19px;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 10px 0 0;
 `;
-
 
 const RaceInfo: FC<RaceInfoProps> = ({title, currentLap, totalLaps}) => {
     return (
         <Container>
             <Title>{title}</Title>
-            <LapInfo>Current Lap: {currentLap}/{totalLaps}</LapInfo>
+            <LapInfo>
+                Current Lap: {currentLap}/{totalLaps}
+            </LapInfo>
             <Background/>
         </Container>
     );
-}
+};
 
 export default RaceInfo;

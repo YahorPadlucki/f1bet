@@ -2,8 +2,8 @@ import {
     createSelector,
     createSlice,
     PayloadAction
-} from '@reduxjs/toolkit';
-import { RootState } from '../Store';
+} from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
 export interface Driver {
     driverId: string;
@@ -26,7 +26,7 @@ const initialState: DriversState = {
 };
 
 const driversSlice = createSlice({
-    name: 'drivers',
+    name: "drivers",
     initialState,
     reducers: {
         addDriver: (state, action: PayloadAction<Driver>) => {
@@ -37,9 +37,12 @@ const driversSlice = createSlice({
         updateDriver: (state, action: PayloadAction<Driver>) => {
             const {driverId} = action.payload;
             if (state.driversById[driverId]) {
-                state.driversById[driverId] = {...state.driversById[driverId], ...action.payload};
+                state.driversById[driverId] = {
+                    ...state.driversById[driverId],
+                    ...action.payload,
+                };
             }
-        }
+        },
     },
 });
 
@@ -56,6 +59,5 @@ export const selectAllDrivers = createSelector(
     (state: RootState) => state.drivers.driversIds,
     (driversById, driversIds) => driversIds.map((id) => driversById[id])
 );
-
 
 export default driversSlice.reducer;

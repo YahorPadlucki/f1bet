@@ -1,8 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
+import { configureStore } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 
-import driverBetsReducer from './reducers/betsReducer';
-import driversReducer from './reducers/driversReducer';
+import driverBetsReducer from "./reducers/betsReducer";
+import driversReducer from "./reducers/driversReducer";
 import chipReducer from "./reducers/chipsReducer";
 import raceReducer from "./reducers/raceReducer";
 import multiplayerReducer from "./reducers/multiplayerReducer";
@@ -15,7 +15,7 @@ const store = configureStore({
         chips: chipReducer,
         race: raceReducer,
         multiplayer: multiplayerReducer,
-        balance: balanceReducer
+        balance: balanceReducer,
     },
 });
 

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { FC } from "react";
+import { type FC } from "react";
 
 const CollectButton = styled.div`
   display: flex;
@@ -8,7 +8,7 @@ const CollectButton = styled.div`
   border: 1px solid #000;
   padding: 3px;
   border-radius: 5px;
-  background-color: #5CB85CFF;
+  background-color: #5cb85cff;
   cursor: pointer;
 `;
 
@@ -28,17 +28,16 @@ const SetBetLabel = styled.span`
   font-size: 12px;
   font-weight: bold;
   color: #ffffff;
-
 `;
 type CollectWinProps = {
     winValue: number;
     onClick: () => void;
-}
+};
 
 const CollectWinButton: FC<CollectWinProps> = ({winValue, onClick}) => {
     const handleClick = () => {
         onClick();
-    }
+    };
 
     return (
         <CollectButton onClick={handleClick}>
@@ -46,6 +45,6 @@ const CollectWinButton: FC<CollectWinProps> = ({winValue, onClick}) => {
             <SetBetLabel>Collect</SetBetLabel>
         </CollectButton>
     );
-}
+};
 
 export default CollectWinButton;

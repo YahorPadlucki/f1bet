@@ -1,6 +1,6 @@
 {
   "MRData": {
-    "xmlns": "http:\/\/ergast.com\/mrd\/1.5",
+    "xmlns": "http://ergast.com/mrd/1.5",
     "series": "f1",
     "url": "http://ergast.com/api/f1/2019/9/laps.json",
     "limit": "2000",
@@ -13,7 +13,7 @@
         {
           "season": "2019",
           "round": "9",
-          "url": "http:\/\/en.wikipedia.org\/wiki\/2019_Austrian_Grand_Prix",
+          "url": "http://en.wikipedia.org/wiki/2019_Austrian_Grand_Prix",
           "raceName": "Austrian Grand Prix",
           "Circuit": {
             "circuitId": "red_bull_ring",

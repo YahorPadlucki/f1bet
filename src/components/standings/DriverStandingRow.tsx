@@ -14,10 +14,10 @@ import {
 } from "../bets/betItems/utils";
 import {
     currentLapState,
-    totalLapsState
+    totalLapsState,
 } from "../../store/reducers/raceReducer";
 import {
-    FC,
+    type FC,
     useEffect,
     useState
 } from "react";
@@ -33,7 +33,7 @@ const StandingsRow = styled.div`
   cursor: pointer;
 `;
 
-const BetStatusIcon = styled.div<{ color: string, }>`
+const BetStatusIcon = styled.div<{ color: string }>`
 display: flex;
 align-items: center;
 justify-content: center;
@@ -55,38 +55,41 @@ justify-content: center;
 `;
 
 const Place = styled.div`
-padding-right: 5px  ;
- display: flex;
+  padding-right: 5px;
+  display: flex;
   justify-content: center;
-  
 `;
 
 const Time = styled.div`
-text-align: left;
-margin-left: -1 rem;
+  text-align: left;
+  margin-left: -1 rem;
 `;
 
-
-interface StandingsRowProps {
+interface DriverStandingRowProps {
     driver: Driver;
     onDriverClicked: (value: Driver) => void;
 }
 
 const anticipationColor = "orange";
-const wonColor = getBetItemBorderColors('won').borderColor;
-const setColor = getBetItemBorderColors('set').borderColor;
+const wonColor = getBetItemBorderColors("won").borderColor;
+const setColor = getBetItemBorderColors("set").borderColor;
 
-const DriverStandingRow:FC<StandingsRowProps> = ({driver, onDriverClicked}) => {
-
-    const bets: Bet[] = useSelector(selectBetsByDriverId(driver.driverId), shallowEqual);
+const DriverStandingRow: FC<DriverStandingRowProps> = ({
+                                                           driver,
+                                                           onDriverClicked,
+                                                       }) => {
+    const bets: Bet[] = useSelector(
+        selectBetsByDriverId(driver.driverId),
+        shallowEqual
+    );
     const currentLap = useSelector(currentLapState);
     const totalLaps = useSelector(totalLapsState);
 
-    let activeBet = bets.find(bet => bet.state === "set");
-    let winningBet = bets.find(bet => bet.state === "won");
+    let activeBet = bets.find((bet) => bet.state === "set");
+    let winningBet = bets.find((bet) => bet.state === "won");
     const [betIsCloseToOutcome, setBetIsCloseToOutcome] = useState<Bet | undefined>(undefined);
     useEffect(() => {
-        const closeToOutcomeBet = bets.find(bet => {
+        const closeToOutcomeBet = bets.find((bet) => {
             if (bet.state === "set") {
                 switch (bet.type) {
                     case "endOfLap1Place":
@@ -109,30 +112,30 @@ const DriverStandingRow:FC<StandingsRowProps> = ({driver, onDriverClicked}) => {
         setBetIsCloseToOutcome(closeToOutcomeBet);
     }, [currentLap, bets]);
 
-
     const statusColor = (): string => {
         if (!activeBet && !winningBet && !betIsCloseToOutcome) return "grey";
 
         if (betIsCloseToOutcome) return anticipationColor;
         return winningBet ? wonColor : setColor;
-    }
+    };
 
     return (
-        <StandingsRow
-            onClick={() => onDriverClicked(driver)}
-        >
+        <StandingsRow onClick={() => onDriverClicked(driver)}>
             <Place>
                 <BetStatusIcon
                     color={statusColor()}
                     className={betIsCloseToOutcome ? "shake" : winningBet ? "win" : ""}
-                >{driver.position}
+                >
+                    {driver.position}
                 </BetStatusIcon>
             </Place>
 
             <DriverName driverName={driver.name} driverId={driver.driverId}/>
-            <Time>{driver.timeToLeader > -1 ? timeToString(driver.timeToLeader) : ""}</Time>
+            <Time>
+                {driver.timeToLeader > -1 ? timeToString(driver.timeToLeader) : ""}
+            </Time>
         </StandingsRow>
-    )
-}
+    );
+};
 
 export default DriverStandingRow;

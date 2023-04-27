@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import styled from 'styled-components';
+import { type FC } from "react";
+import styled from "styled-components";
 
 const BalanceContainer = styled.div`
   background-color: black;
@@ -10,7 +10,7 @@ const BalanceContainer = styled.div`
   font-size: 20px;
   font-weight: bold;
   padding: 20px 0;
-  height:5%;
+  height: 5%;
 `;
 
 interface BalanceBarProps {
@@ -18,11 +18,7 @@ interface BalanceBarProps {
 }
 
 const BalanceBar: FC<BalanceBarProps> = ({balance}: BalanceBarProps) => {
-    return (
-        <BalanceContainer>
-            Balance: ${balance}
-        </BalanceContainer>
-    );
+    return <BalanceContainer>Balance: ${balance}</BalanceContainer>;
 };
 
 export default BalanceBar;

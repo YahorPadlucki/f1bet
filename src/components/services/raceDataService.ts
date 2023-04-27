@@ -17,7 +17,6 @@ export interface Lap {
     Timings: Driver[];
 }
 
-
 interface RaceTable {
     Races: Race[];
 }
@@ -41,18 +40,16 @@ interface DriverData {
     familyName: string;
 }
 
-
 const getRaceData = async () => {
-    // const lapsResponse = await fetch('/data/aust.json');
+    // const lapsResponse = await fetch("/data/aust.json");
     const lapsResponse = await fetch('https://ergast.com/api/f1/2019/9/laps.json?limit=1420');
-    const lapsData = await lapsResponse.json() as Response;
+    const lapsData = (await lapsResponse.json()) as Response;
     const laps = lapsData.MRData.RaceTable.Races[0].Laps;
 
-    // const resultsResponse = await fetch('/data/austResults.json');
+    // const resultsResponse = await fetch("/data/austResults.json");
     const resultsResponse = await fetch('https://ergast.com/api/f1/2019/9/results.json?limit=30');
-    const resultsData = await resultsResponse.json() as Response;
+    const resultsData = (await resultsResponse.json()) as Response;
     const results = resultsData.MRData.RaceTable.Races[0].Results;
-
 
     for (let i = 0; i < laps.length; i++) {
         const lapDetails = laps[i];
@@ -82,19 +79,16 @@ const getRaceData = async () => {
                     driverId: result.Driver.driverId,
                     name: result.Driver.familyName,
                     position: result.grid > 0 ? result.grid : results.length, //0 is pitlane start
-                    time: '',
+                    time: "",
                     timeToLeader: -1,
-                    totalTime: 0
-                })
+                    totalTime: 0,
+                });
             }
 
-
             laps.unshift(gridLap);
-
-
         }
     }
     return laps;
-}
+};
 
-export default {getRaceData}
+export default {getRaceData};

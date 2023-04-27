@@ -1,10 +1,10 @@
-import React, {
+import {
     ChangeEvent,
-    FC,
+    type FC,
     useEffect,
     useState
-} from 'react';
-import './App.css';
+} from "react";
+import "./App.css";
 import Standings from "./components/standings/Standings";
 import RaceInfo from "./components/RaceInfo";
 import Modal from "./components/Modal";
@@ -15,22 +15,22 @@ import {
     Driver,
     selectAllDrivers,
     selectDriverById,
-    updateDriver
-} from './store/reducers/driversReducer';
+    updateDriver,
+} from "./store/reducers/driversReducer";
 import { useSelector } from "react-redux";
-import store, { useAppDispatch } from "./store/Store";
+import store, { useAppDispatch } from "./store/store";
 import {
     currentLapDataState,
     currentLapState,
     initializeRaceData,
     lapsDataState,
     setCurrentLap,
-    totalLapsState
+    totalLapsState,
 } from "./store/reducers/raceReducer";
 import {
     removeBet,
     selectBetsByDriverId,
-    updateBetWinState
+    updateBetWinState,
 } from "./store/reducers/betsReducer";
 import BalanceBar from "./components/balance/BalanceBar";
 import { currentBalanceState } from "./store/reducers/balanceReducer";
@@ -40,14 +40,13 @@ import PlayPauseButton from "./components/PlayPauseButton";
 import ReactConfetti from "react-confetti";
 
 const AppWrapper = styled.div`
-height: 100vh;
-overflow: hidden;
-position: relative;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
 `;
 
 const PLAY_SPEED_MS = 2000;
 const CONFETTI_DURATION = 2000;
-
 
 const App: FC = () => {
     const dispatch = useAppDispatch();
@@ -66,12 +65,14 @@ const App: FC = () => {
     const drivers = useSelector(selectAllDrivers) || [];
 
     useEffect(() => {
-        dispatch(initializeRaceData())
+        dispatch(initializeRaceData());
     }, []);
 
     useEffect(() => {
         currentLapData?.Timings.forEach((driver) => {
-            const existingDriver = selectDriverById(driver.driverId)(store.getState());
+            const existingDriver = selectDriverById(driver.driverId)(
+                store.getState()
+            );
 
             if (!existingDriver) {
                 dispatch(addDriver(driver));
@@ -89,44 +90,45 @@ const App: FC = () => {
             setConfetti(200);
             setTimeout(() => {
                 setConfetti(0);
-            }, CONFETTI_DURATION)
+            }, CONFETTI_DURATION);
         }
     }, [currentLap]);
 
     useEffect(() => {
         drivers.forEach((driver) => {
-            dispatch(updateBetWinState({
-                driverId: driver.driverId,
-                driverPlace: +driver.position,
-                timeToLeader: +driver.timeToLeader,
-                currentLap: currentLap,
-                totalLaps: totalLaps
-            }));
+            dispatch(
+                updateBetWinState({
+                    driverId: driver.driverId,
+                    driverPlace: +driver.position,
+                    timeToLeader: +driver.timeToLeader,
+                    currentLap: currentLap,
+                    totalLaps: totalLaps,
+                })
+            );
             selectBetsByDriverId(driver.driverId)(store.getState()).forEach((bet) => {
-                if (bet.state === 'lost') {
-                    dispatch(removeBet({
-                        driverId: driver.driverId,
-                        type: bet.type
-                    }))
+                if (bet.state === "lost") {
+                    dispatch(
+                        removeBet({
+                            driverId: driver.driverId,
+                            type: bet.type,
+                        })
+                    );
                 }
             });
 
             if (selectedDriver?.driverId === driver.driverId) {
                 setSelectedDriver(driver);
             }
-        })
-
-
+        });
     }, [drivers]);
 
     useEffect(() => {
-        if (!isPlaying || !raceStarted) return
+        if (!isPlaying || !raceStarted) return;
         const interval = setInterval(() => {
             dispatch(setCurrentLap({currentLap: currentLap + 1}));
         }, PLAY_SPEED_MS);
         return () => clearInterval(interval);
     }, [isPlaying, raceStarted, currentLap]);
-
 
     const handleCurrentLapChanged = (event: ChangeEvent<HTMLInputElement>) => {
         dispatch(setCurrentLap({currentLap: Number(event.target.value)}));
@@ -142,7 +144,6 @@ const App: FC = () => {
         setInterval(() => setConfetti(0), CONFETTI_DURATION);
     }
 
-
     function onDriverClicked(driverData: Driver) {
         setSelectedDriver(driverData);
         setIsSetBetOpened(true);
@@ -151,7 +152,11 @@ const App: FC = () => {
     return (
         <AppWrapper>
             <PlayPauseButton onClick={onPlayButtonClicked}/>
-            <RaceInfo title="Austrian Grand Prix" currentLap={currentLap} totalLaps={totalLaps}/>
+            <RaceInfo
+                title="Austrian Grand Prix"
+                currentLap={currentLap}
+                totalLaps={totalLaps}
+            />
             <Modal isOpened={isSetBetOpened} close={() => setIsSetBetOpened(false)}>
                 <DriverBetsList driver={selectedDriver!}/>
             </Modal>
@@ -160,7 +165,7 @@ const App: FC = () => {
                 <input
                     type="range"
                     id="Current lap"
-                    className={'slider'}
+                    className={"slider"}
                     min={0}
                     max={totalLaps}
                     value={currentLap}
@@ -171,9 +176,7 @@ const App: FC = () => {
             {!raceStarted && isPlaying && <RaceLights onLightsOut={OnLightsOut}/>}
             <ReactConfetti numberOfPieces={confetti}/>
         </AppWrapper>
-
-
     );
-}
+};
 
 export default App;

@@ -1,8 +1,8 @@
 import {
     createSlice,
     PayloadAction
-} from '@reduxjs/toolkit';
-import { RootState } from '../Store';
+} from "@reduxjs/toolkit";
+import { RootState } from "../store";
 import {
     BetState,
     BetType
@@ -10,7 +10,7 @@ import {
 
 export interface Bet {
     driverId: string;
-    type: BetType
+    type: BetType;
     state: BetState;
     betValue: number;
     betMultiplayer: number;
@@ -25,7 +25,6 @@ export interface Bet {
     winValue?: number;
 }
 
-
 interface DriverBetsState {
     [driverId: string]: Bet[];
 }
@@ -33,7 +32,7 @@ interface DriverBetsState {
 const initialState: DriverBetsState = {};
 
 const driverBetsSlice = createSlice({
-    name: 'driverBets',
+    name: "driverBets",
     initialState,
     reducers: {
         addBet: (state, action: PayloadAction<Bet>) => {
@@ -42,7 +41,9 @@ const driverBetsSlice = createSlice({
             if (!state[driverId]) {
                 state[driverId] = [];
             }
-            const existingBetIndex = state[driverId].findIndex(bet => bet.type === type);
+            const existingBetIndex = state[driverId].findIndex(
+                (bet) => bet.type === type
+            );
             if (existingBetIndex === -1) {
                 state[driverId].push(newBet);
             } else {
@@ -51,67 +52,87 @@ const driverBetsSlice = createSlice({
         },
         updateBet: (state, action: PayloadAction<Bet>) => {
             const {driverId, type} = action.payload;
-            console.log("updateBet", type)
+            console.log("updateBet", type);
             if (state[driverId]) {
-                const existingBetIndex = state[driverId].findIndex(bet => bet.type === type);
+                const existingBetIndex = state[driverId].findIndex(
+                    (bet) => bet.type === type
+                );
                 if (existingBetIndex !== -1) {
-                    state[driverId][existingBetIndex] = {...state[driverId][existingBetIndex], ...action.payload};
+                    state[driverId][existingBetIndex] = {
+                        ...state[driverId][existingBetIndex],
+                        ...action.payload,
+                    };
                 }
             }
         },
-        removeBet: (state, action: PayloadAction<{ driverId: string, type: BetType }>) => {
+        removeBet: (
+            state,
+            action: PayloadAction<{ driverId: string; type: BetType }>
+        ) => {
             const {driverId, type} = action.payload;
             if (state[driverId]) {
-                state[driverId] = state[driverId].filter(bet => bet.type !== type);
+                state[driverId] = state[driverId].filter((bet) => bet.type !== type);
             }
         },
-        updateBetWinState: (state, action: PayloadAction<{ driverId: string, driverPlace: number, currentLap: number, timeToLeader: number, totalLaps: number }>) => {
-            const {driverId, driverPlace, currentLap, timeToLeader, totalLaps} = action.payload;
-            const updatedBets = state[driverId]?.map(bet => {
+        updateBetWinState: (
+            state,
+            action: PayloadAction<{
+                driverId: string;
+                driverPlace: number;
+                currentLap: number;
+                timeToLeader: number;
+                totalLaps: number;
+            }>
+        ) => {
+            const {driverId, driverPlace, currentLap, timeToLeader, totalLaps} =
+                action.payload;
+            const updatedBets = state[driverId]?.map((bet) => {
                 if (bet.state === "set") {
                     switch (bet.type) {
                         case "podiumFinish":
-                            if (currentLap !== totalLaps)
-                                break;
+                            if (currentLap !== totalLaps) break;
                             return updateWinState(bet, driverPlace <= 3);
                         case "endOfLap1Place":
-                            if (currentLap !== 1)
-                                break;
+                            if (currentLap !== 1) break;
                             return updateWinState(bet, driverPlace === bet.endOfLap1Place);
                         case "placeOnLap":
-                            if (currentLap !== bet.onLap)
-                                break;
+                            if (currentLap !== bet.onLap) break;
                             return updateWinState(bet, driverPlace === bet.place);
                         case "gapToLeader":
-                            if (currentLap !== bet.timeToLeaderOnLap)
-                                break;
-                            return updateWinState(bet, Math.abs(bet.timeToLeader! - timeToLeader) <= 1);
+                            if (currentLap !== bet.timeToLeaderOnLap) break;
+                            return updateWinState(
+                                bet,
+                                Math.abs(bet.timeToLeader! - timeToLeader) <= 1
+                            );
                     }
                 }
                 return bet;
-            })
+            });
             state[driverId] = updatedBets as Bet[];
-        }
-
+        },
     },
 });
 
 const updateWinState = (bet: Bet, won: boolean) => {
     const state = won ? "won" : "lost";
     const winValue = won ? bet.betValue * bet.betMultiplayer : 0;
-    return {...bet, state, won, winValue}
-}
-
-
-export const {addBet, updateBet, updateBetWinState, removeBet} = driverBetsSlice.actions;
-
-export const selectBetsByDriverId = (driverId: string) => (state: RootState): Bet[] => {
-    return state.driverBets[driverId] || [];
+    return {...bet, state, won, winValue};
 };
 
-export const selectBetByType = (driverId: string, type: BetType) => (state: RootState): Bet | undefined => {
-    const bets = state.driverBets[driverId] || [];
-    return bets.find(bet => bet.type === type);
-};
+export const {addBet, updateBet, updateBetWinState, removeBet} =
+    driverBetsSlice.actions;
+
+export const selectBetsByDriverId =
+    (driverId: string) =>
+        (state: RootState): Bet[] => {
+            return state.driverBets[driverId] || [];
+        };
+
+export const selectBetByType =
+    (driverId: string, type: BetType) =>
+        (state: RootState): Bet | undefined => {
+            const bets = state.driverBets[driverId] || [];
+            return bets.find((bet) => bet.type === type);
+        };
 
 export default driverBetsSlice.reducer;

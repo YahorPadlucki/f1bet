@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { type FC } from "react";
 import styled from "styled-components";
 import {
     useDispatch,
@@ -7,13 +7,13 @@ import {
 import {
     getAllChips,
     selectedChipValue,
-    setChip
+    setChip,
 } from "../../store/reducers/chipsReducer";
 
 const ChipsContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    `;
+  display: flex;
+  justify-content: center;
+`;
 
 const ChipWrapper = styled.div<{ selected: boolean }>`
   display: inline-block;
@@ -21,7 +21,6 @@ const ChipWrapper = styled.div<{ selected: boolean }>`
   margin: 0 5px;
   cursor: pointer;
   opacity: ${(props) => (props.selected ? 1 : 0.6)};
-  
 `;
 
 export const Chip = styled.div<{ value: number; selected: boolean }>`
@@ -30,14 +29,14 @@ export const Chip = styled.div<{ value: number; selected: boolean }>`
   margin: 15px auto;
   width: 50px;
   height: 50px;
-    line-height: 50px;
+  line-height: 50px;
   @media (max-width: 768px) {
     width: 40px;
     height: 40px;
     line-height: 40px;
-    font-weight:bold;
+    font-weight: bold;
   }
-  
+
   border: 7px dashed white;
   border-radius: 50%;
 
@@ -55,8 +54,7 @@ export const Chip = styled.div<{ value: number; selected: boolean }>`
     margin: -8px;
     border-radius: 50%;
     background: green;
-    content: '';
-
+    content: "";
   }
 
   &:after {
@@ -69,26 +67,23 @@ export const Chip = styled.div<{ value: number; selected: boolean }>`
     margin: 3px;
     border: 2px dashed white;
     border-radius: 50%;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0, 0, 0, 0.4);
 
-    content: '';
+    content: "";
   }
   ${(props) =>
     props.selected &&
-
     ` box-shadow: 0px 0px 6px #333;
   `}
 `;
 
-
 const BettingChips: FC = () => {
-
     const dispatch = useDispatch();
     const chips = useSelector(getAllChips);
     const selectedChip = useSelector(selectedChipValue);
 
     const handleChipClick = (value: number) => {
-        dispatch(setChip({chipValue: value}))
+        dispatch(setChip({chipValue: value}));
     };
 
     return (
@@ -105,7 +100,6 @@ const BettingChips: FC = () => {
                 </ChipWrapper>
             ))}
         </ChipsContainer>
-
     );
 };
 

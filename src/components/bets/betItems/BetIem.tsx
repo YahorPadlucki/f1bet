@@ -1,5 +1,5 @@
-import React, {
-    FC,
+import {
+    type FC,
     ReactNode,
     useState
 } from "react";
@@ -18,7 +18,6 @@ export type BetItemWrapperProps = {
     setBetButtonBorder: string;
 };
 
-
 const Wrapper = styled.div<BetItemWrapperProps>`
   display: flex;
   flex-direction: column;
@@ -30,13 +29,12 @@ const Wrapper = styled.div<BetItemWrapperProps>`
   background-color: ${(props) => props.backgroundColor};
   color: ${(props) => props.color};
   width: 300px;
-    position: relative;
+  position: relative;
 `;
 const BetItemWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
- 
 `;
 
 const Container = styled.div`
@@ -45,30 +43,28 @@ const Container = styled.div`
 `;
 
 const Multiplayer = styled.div`
-display: flex;
-justify-content: center;
- user-select: none;
+  display: flex;
+  justify-content: center;
+  user-select: none;
 `;
 const Border = styled.div<{ borderColor: string }>`
-margin-top: -1px;
+  margin-top: -1px;
   border-radius: 0 0 5px 5px;
-border: 1px solid ${({borderColor}) => borderColor};
-padding: 5px;
+  border: 1px solid ${({borderColor}) => borderColor};
+  padding: 5px;
 `;
-
 
 const BetTypeText = styled.div`
   position: absolute;
   top: 50%;
   font-weight: bold;
-  left: -25px; 
+  left: -25px;
   transform: translateY(-50%) rotate(180deg);
-  writing-mode: vertical-rl; 
+  writing-mode: vertical-rl;
 `;
 const ButtonWrapper = styled.div`
   position: relative;
 `;
-
 
 const Particle = styled.div`
   position: absolute;
@@ -89,7 +85,6 @@ export interface BetIemProps {
     winValue: number;
 }
 
-
 const BetIem: FC<BetIemProps> = ({
                                      children,
                                      state,
@@ -98,7 +93,7 @@ const BetIem: FC<BetIemProps> = ({
                                      multiplier,
                                      winValue,
                                      onWinCollectClicked,
-                                     typeLabel
+                                     typeLabel,
                                  }: BetIemProps) => {
     const colors = getBetItemBorderColors(state);
     const [isExploding, setExploding] = useState(false);
@@ -109,33 +104,37 @@ const BetIem: FC<BetIemProps> = ({
     }
 
     return (
-        <>
-            <Wrapper {...colors}>
-                <Multiplayer>
-                    <Border borderColor={colors.borderColor}>
-                        Multiplayer x{multiplier}
-                    </Border>
-                </Multiplayer>
-                <BetItemWrapper>
-                    <Container>
-                        {children}
-                    </Container>
-                    <ButtonWrapper>
-                        {state !== "won" && (
-                            <SetBetButton onClick={onSetBetClicked} state={multiplier > 1 ? state : 'disabled'}
-                                          selectedBetValue={selectedBetValue}/>
-                        )}
-                        {state === "won" && (
-                            <CollectWinButton onClick={onWinCollectClickedClick} winValue={winValue}/>
-                        )}
-                        {isExploding && <Particle><ConfettiExplosion zIndex={999}/></Particle>}
-                    </ButtonWrapper>
-                </BetItemWrapper>
-                <BetTypeText>{typeLabel}</BetTypeText>
-            </Wrapper>
-
-        </>
-    )
-}
+        <Wrapper {...colors}>
+            <Multiplayer>
+                <Border borderColor={colors.borderColor}>
+                    Multiplayer x{multiplier}
+                </Border>
+            </Multiplayer>
+            <BetItemWrapper>
+                <Container>{children}</Container>
+                <ButtonWrapper>
+                    {state === "won" ? (
+                        <CollectWinButton
+                            onClick={onWinCollectClickedClick}
+                            winValue={winValue}
+                        />
+                    ) : (
+                        <SetBetButton
+                            onClick={onSetBetClicked}
+                            state={multiplier > 1 ? state : "disabled"}
+                            selectedBetValue={selectedBetValue}
+                        />
+                    )}
+                    {isExploding && (
+                        <Particle>
+                            <ConfettiExplosion zIndex={999}/>
+                        </Particle>
+                    )}
+                </ButtonWrapper>
+            </BetItemWrapper>
+            <BetTypeText>{typeLabel}</BetTypeText>
+        </Wrapper>
+    );
+};
 
 export default BetIem;
