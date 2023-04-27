@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import styled from "styled-components";
 import {
     useDispatch,
@@ -10,18 +10,9 @@ import {
     setChip
 } from "../../store/reducers/chipsReducer";
 
-interface ChipProps {
-    value: number;
-    selected: boolean;
-    onClick: () => void;
-}
-
 const ChipsContainer = styled.div`
     display: flex;
     justify-content: center;
-   
-  
-    
     `;
 
 const ChipWrapper = styled.div<{ selected: boolean }>`
@@ -90,7 +81,7 @@ export const Chip = styled.div<{ value: number; selected: boolean }>`
 `;
 
 
-const BettingChips: React.FC = () => {
+const BettingChips: FC = () => {
 
     const dispatch = useDispatch();
     const chips = useSelector(getAllChips);

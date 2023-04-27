@@ -1,8 +1,7 @@
 import { Driver } from "../../store/reducers/driversReducer";
 import {
     calcTimeToLeader,
-    parseTime,
-    timeToString
+    parseTime
 } from "../bets/betItems/utils";
 
 interface Response {
@@ -82,7 +81,7 @@ const getRaceData = async () => {
                 gridLap.Timings.push({
                     driverId: result.Driver.driverId,
                     name: result.Driver.familyName,
-                    position: result.grid>0? result.grid : results.length, //0 is pitlane start
+                    position: result.grid > 0 ? result.grid : results.length, //0 is pitlane start
                     time: '',
                     timeToLeader: -1,
                     totalTime: 0

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { getTeamColorByDriverId } from "../bets/betItems/utils";
 
@@ -18,7 +18,7 @@ interface Props {
     driverId: string;
 }
 
-const DriverName = ({driverName, driverId}: Props) => {
+const DriverName: FC<Props> = ({driverName, driverId}) => {
     return (
         <DriverNameDiv
             style={{

@@ -1,4 +1,5 @@
 import React, {
+    FC,
     ReactNode,
     useState
 } from "react";
@@ -89,16 +90,16 @@ export interface BetIemProps {
 }
 
 
-function BetIem({
-                    children,
-                    state,
-                    onSetBetClicked,
-                    selectedBetValue,
-                    multiplier,
-                    winValue,
-                    onWinCollectClicked,
-                    typeLabel
-                }: BetIemProps) {
+const BetIem: FC<BetIemProps> = ({
+                                     children,
+                                     state,
+                                     onSetBetClicked,
+                                     selectedBetValue,
+                                     multiplier,
+                                     winValue,
+                                     onWinCollectClicked,
+                                     typeLabel
+                                 }: BetIemProps) => {
     const colors = getBetItemBorderColors(state);
     const [isExploding, setExploding] = useState(false);
 
@@ -120,12 +121,12 @@ function BetIem({
                         {children}
                     </Container>
                     <ButtonWrapper>
-                        {state != "won" && (
+                        {state !== "won" && (
                             <SetBetButton onClick={onSetBetClicked} state={multiplier > 1 ? state : 'disabled'}
                                           selectedBetValue={selectedBetValue}/>
                         )}
-                        {state == "won" && (
-                            <CollectWinButton onClick={onWinCollectClickedClick} state={state} winValue={winValue}/>
+                        {state === "won" && (
+                            <CollectWinButton onClick={onWinCollectClickedClick} winValue={winValue}/>
                         )}
                         {isExploding && <Particle><ConfettiExplosion zIndex={999}/></Particle>}
                     </ButtonWrapper>

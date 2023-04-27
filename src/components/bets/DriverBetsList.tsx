@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import {
+    FC,
     useEffect,
     useState
 } from "react";
-import BetItemToggleInput from "./betItems/BetItemToggleInput";
 import BettingChips from "./BettingChips";
 import { AppDispatch } from "../../store/Store";
 import {
@@ -64,9 +64,8 @@ function lapsEnoughToBet(lapsLeft: number): boolean {
 }
 
 
-const DriverBetsList = ({driver}: SetBetProps) => {
+const DriverBetsList:FC<SetBetProps> = ({driver}) => {
     const dispatch: AppDispatch = useDispatch();
-    const bets: Bet[] = useSelector(selectBetsByDriverId(driver.driverId));
 
     const selectedChip = useSelector(selectedChipValue);
     const currentLap = useSelector(currentLapState);

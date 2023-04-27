@@ -1,9 +1,5 @@
-import {
-    Action,
-    configureStore
-} from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import { ThunkAction } from 'redux-thunk';
 
 import driverBetsReducer from './reducers/betsReducer';
 import driversReducer from './reducers/driversReducer';
@@ -24,7 +20,6 @@ const store = configureStore({
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;
 export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();

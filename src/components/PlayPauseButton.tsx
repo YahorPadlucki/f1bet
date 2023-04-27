@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, {
+    FC,
+    useState
+} from 'react';
 import styled from 'styled-components';
 
 interface Props {
     onClick: (isPlaying: boolean) => void;
 }
 
-const PlayPauseButton: React.FC<Props> = ({ onClick }) => {
+const PlayPauseButton: FC<Props> = ({ onClick }) => {
     const [isPlaying, setIsPlaying] = useState(false);
 
     const handleButtonClick = () => {

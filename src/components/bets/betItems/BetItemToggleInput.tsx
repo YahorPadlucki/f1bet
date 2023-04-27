@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import BetIem, { BetIemProps } from "./BetIem";
-import { ChangeEvent } from "react";
-import { BetState } from "../../../types/BetTypes";
+import {
+    ChangeEvent,
+    FC
+} from "react";
 
 const Toggleable = styled.label`
   margin-right: 10px;
@@ -17,18 +19,18 @@ interface BetItemToggleInputProps extends BetIemProps {
     value: boolean;
 }
 
-function BetItemToggleInput({
-                                state,
-                                label,
-                                typeLabel,
-                                onSetBetClicked,
-                                onChange,
-                                value,
-                                selectedBetValue,
-                                multiplier,
-                                winValue,
-                                onWinCollectClicked
-                            }: BetItemToggleInputProps) {
+const BetItemToggleInput: FC<BetItemToggleInputProps> = ({
+                                                             state,
+                                                             label,
+                                                             typeLabel,
+                                                             onSetBetClicked,
+                                                             onChange,
+                                                             value,
+                                                             selectedBetValue,
+                                                             multiplier,
+                                                             winValue,
+                                                             onWinCollectClicked
+                                                         }) => {
 
     const onToggleClicked = (event: ChangeEvent<HTMLInputElement>) => {
         onChange(event.target.checked);

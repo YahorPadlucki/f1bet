@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FC } from "react";
 
 interface RaceInfoProps {
     title: string;
@@ -42,7 +43,7 @@ const LapInfo = styled.p`
 `;
 
 
-function RaceInfo({title, currentLap, totalLaps}: RaceInfoProps) {
+const RaceInfo: FC<RaceInfoProps> = ({title, currentLap, totalLaps}) => {
     return (
         <Container>
             <Title>{title}</Title>

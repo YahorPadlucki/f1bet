@@ -17,6 +17,7 @@ import {
     totalLapsState
 } from "../../store/reducers/raceReducer";
 import {
+    FC,
     useEffect,
     useState
 } from "react";
@@ -75,7 +76,7 @@ const anticipationColor = "orange";
 const wonColor = getBetItemBorderColors('won').borderColor;
 const setColor = getBetItemBorderColors('set').borderColor;
 
-const DriverStandingRow = ({driver, onDriverClicked}: StandingsRowProps) => {
+const DriverStandingRow:FC<StandingsRowProps> = ({driver, onDriverClicked}) => {
 
     const bets: Bet[] = useSelector(selectBetsByDriverId(driver.driverId), shallowEqual);
     const currentLap = useSelector(currentLapState);

@@ -1,6 +1,6 @@
 import React, {
     ChangeEvent,
-    useState
+    FC
 } from "react";
 import styled from "styled-components";
 import BetIem, { BetIemProps } from "./BetIem";
@@ -49,7 +49,7 @@ interface BetItemRangeInputProps extends BetIemProps {
     onChange2?: (value: number) => void;
 }
 
-const BetItemRangeInput = ({
+const BetItemRangeInput: FC<BetItemRangeInputProps> = ({
                                label,
                                typeLabel,
                                minValue,
@@ -67,7 +67,7 @@ const BetItemRangeInput = ({
                                multiplier,
                                winValue,
                                onWinCollectClicked
-                           }: BetItemRangeInputProps) => {
+                           }) => {
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         onChange(Number(event.target.value));

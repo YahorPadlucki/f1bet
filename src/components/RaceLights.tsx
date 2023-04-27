@@ -1,6 +1,7 @@
 import React, {
     useState,
-    useEffect
+    useEffect,
+    FC
 } from 'react';
 import styled from 'styled-components';
 import { ModalBackground } from "./Modal";
@@ -31,7 +32,7 @@ interface Props {
     onLightsOut: () => void;
 }
 
-const RaceLights = ({onLightsOut}: Props) => {
+const RaceLights: FC<Props> = ({onLightsOut}) => {
     const [lights, setLights] = useState(['grey', 'grey', 'grey']);
     const [stop, setStop] = useState(false);
     useEffect(() => {

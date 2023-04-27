@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import React from "react";
-import { BetState } from "../../../types/BetTypes";
+import React, { FC } from "react";
 
 const CollectButton = styled.div`
   display: flex;
@@ -32,12 +31,11 @@ const SetBetLabel = styled.span`
 
 `;
 type CollectWinProps = {
-    state: BetState;
     winValue: number;
     onClick: () => void;
 }
 
-function CollectWinButton({state, winValue, onClick}: CollectWinProps) {
+const CollectWinButton: FC<CollectWinProps> = ({winValue, onClick}) => {
     const handleClick = () => {
         onClick();
     }
@@ -49,6 +47,5 @@ function CollectWinButton({state, winValue, onClick}: CollectWinProps) {
         </CollectButton>
     );
 }
-
 
 export default CollectWinButton;

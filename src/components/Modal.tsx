@@ -1,4 +1,5 @@
 import {
+    FC,
     ReactNode,
     useEffect,
     useState
@@ -58,7 +59,7 @@ const Button = styled.button`
   }
 `
 
-function Modal({children, isOpened, close}: Props) {
+const Modal: FC<Props> = ({children, isOpened, close}) => {
     const [shouldShow, setShouldShow] = useState(false);
 
     useEffect(() => {

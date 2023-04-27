@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
 const BalanceContainer = styled.div`
@@ -17,7 +17,7 @@ interface BalanceBarProps {
     balance: number;
 }
 
-const BalanceBar = ({balance}: BalanceBarProps) => {
+const BalanceBar: FC<BalanceBarProps> = ({balance}: BalanceBarProps) => {
     return (
         <BalanceContainer>
             Balance: ${balance}

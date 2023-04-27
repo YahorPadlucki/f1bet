@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React from "react";
+import React, { FC } from "react";
 import { BetItemWrapperProps } from "../betItems/BetIem";
 import { getBetItemBorderColors } from "../betItems/utils";
 import { BetState } from "../../../types/BetTypes";
@@ -43,7 +43,7 @@ type SetBetButtonProps = {
     selectedBetValue: number;
 }
 
-function SetBetButton({state, onClick, selectedBetValue}: SetBetButtonProps) {
+const SetBetButton: FC<SetBetButtonProps> = ({state, onClick, selectedBetValue}) => {
 
     const isDisabled = state === "disabled" || state === "set";
 
@@ -57,7 +57,7 @@ function SetBetButton({state, onClick, selectedBetValue}: SetBetButtonProps) {
     return (
         <BetButton {...colors} disabled={isDisabled} onClick={handleClick}>
             <BetValue {...colors}>{selectedBetValue}$</BetValue>
-            {state == "default" && (
+            {state === "default" && (
                 <SetBetLabel>Set Bet</SetBetLabel>
             )}
         </BetButton>

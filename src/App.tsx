@@ -1,5 +1,6 @@
 import React, {
     ChangeEvent,
+    FC,
     useEffect,
     useState
 } from 'react';
@@ -16,9 +17,7 @@ import {
     selectDriverById,
     updateDriver
 } from './store/reducers/driversReducer';
-import {
-    useSelector
-} from "react-redux";
+import { useSelector } from "react-redux";
 import store, { useAppDispatch } from "./store/Store";
 import {
     currentLapDataState,
@@ -47,9 +46,10 @@ position: relative;
 `;
 
 const PLAY_SPEED_MS = 2000;
+const CONFETTI_DURATION = 2000;
 
 
-function App() {
+const App: FC = () => {
     const dispatch = useAppDispatch();
 
     const currentLap = useSelector(currentLapState);
@@ -66,12 +66,11 @@ function App() {
     const drivers = useSelector(selectAllDrivers) || [];
 
     useEffect(() => {
-        console.log("initial fetch");
         dispatch(initializeRaceData())
     }, []);
 
     useEffect(() => {
-        currentLapData?.Timings.map((driver) => {
+        currentLapData?.Timings.forEach((driver) => {
             const existingDriver = selectDriverById(driver.driverId)(store.getState());
 
             if (!existingDriver) {
@@ -82,8 +81,6 @@ function App() {
 
     useEffect(() => {
         currentLapData?.Timings.forEach((driver) => {
-            console.log("updateDriver changed");
-
             dispatch(updateDriver(driver));
         });
 
@@ -92,7 +89,7 @@ function App() {
             setConfetti(200);
             setTimeout(() => {
                 setConfetti(0);
-            }, 2000)
+            }, CONFETTI_DURATION)
         }
     }, [currentLap]);
 
@@ -142,12 +139,11 @@ function App() {
     function OnLightsOut() {
         setInterval(() => setRaceStarted(true), 1000);
         setConfetti(200);
-        setInterval(() => setConfetti(0), 2000);
+        setInterval(() => setConfetti(0), CONFETTI_DURATION);
     }
 
 
     function onDriverClicked(driverData: Driver) {
-        console.log("onDriverClicked " + driverData.name)
         setSelectedDriver(driverData);
         setIsSetBetOpened(true);
     }
@@ -160,7 +156,6 @@ function App() {
                 <DriverBetsList driver={selectedDriver!}/>
             </Modal>
             <Standings drivers={drivers} onDriverClicked={onDriverClicked}/>
-            {/*<ControlPanel onStart={handleStart} onPause={handlePause} onReset={handleReset}/>*/}
             <>
                 <input
                     type="range"

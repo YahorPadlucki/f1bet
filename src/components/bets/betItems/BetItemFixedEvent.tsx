@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import BetIem, { BetIemProps } from "./BetIem";
+import { FC } from "react";
 
 const Label = styled.label`
   padding-left: 50px;
@@ -7,16 +8,16 @@ const Label = styled.label`
 `;
 
 
-function BetItemFixedEvent({
-                               state,
-                               label,
-                               typeLabel,
-                               onSetBetClicked,
-                               selectedBetValue,
-                               multiplier,
-                               winValue,
-                               onWinCollectClicked
-                           }: BetIemProps) {
+const BetItemFixedEvent: FC<BetIemProps> = ({
+                                                state,
+                                                label,
+                                                typeLabel,
+                                                onSetBetClicked,
+                                                selectedBetValue,
+                                                multiplier,
+                                                winValue,
+                                                onWinCollectClicked
+                                            }: BetIemProps) => {
 
 
     return (
